@@ -32,7 +32,7 @@ app.put('/api/:id', (req,res) => {
 app.delete('/api/', jwtAuth (req, res) => {
     console.log(req);
     try {
-        User.deleteOne({EmailAddress: req.body.EmailAddress}).then(users => {
+        SlamCrownUser.deleteOne({EmailAddress: req.body.EmailAddress}).then(users => {
             res.status(200).json({ message: "Your slam crown account was deleted"})
         })
     } catch (e) {
