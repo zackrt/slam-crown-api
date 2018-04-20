@@ -24,8 +24,18 @@ app.post('/api/:id', (req,res) => {
     .catch(err);
 });
 app.put('/api/:id', (req,res) => {
-    res.json({
-
+        try {
+            SlamCrownUser.findOneAndUpdate(
+              {EmailAddress: req.body.EmailAddress},
+              req.body,
+              {new: true},
+              (err, SlamCrownUser) => {
+                if (err) return res.status(500).send(err);
+                res.send(SlamCrownUser);
+              })
+        } catch (e) {
+            res.status(500).json({ message: 'Internal server error, account cannot be updated' });
+        }
     });
 });
 
