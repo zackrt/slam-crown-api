@@ -23,15 +23,23 @@ app.post('/api/:id', (req,res) => {
         })
     .catch(err);
 });
-app.put('/api/:id', (req.,res) => {
+app.put('/api/:id', (req,res) => {
     res.json({
 
-    })
+    });
 });
 
-app.delete('api/:id', (req, res) => {
-
+app.delete('/api/', jwtAuth (req, res) => {
+    console.log(req);
+    try {
+        User.deleteOne({EmailAddress: req.body.EmailAddress}).then(users => {
+            res.status(200).json({ message: "Your slam crown account was deleted"})
+        })
+    } catch (e) {
+        res.status(500).json({ message: 'Internal server error, account cannot be deleted' });
+    }
 });
+
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 module.exports = app;
