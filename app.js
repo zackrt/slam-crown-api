@@ -17,13 +17,21 @@ app.get('/api/*', (req, res) => {
 
 app.post('/api/:id', (req,res) => {
   res.json({ok:true})
-    .then()
+    .then(() => {
+        res.new(SlamCrownUser)
+        .status(200);
+        })
     .catch(err);
 });
 app.put('/api/:id', (req.,res) => {
+    res.json({
 
+    })
 });
 
+app.delete('api/:id', (req, res) => {
+
+});
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 module.exports = app;
