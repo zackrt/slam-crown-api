@@ -28,4 +28,25 @@ describe('API', function() {
         });
       })
     });
+  describe('DELETE endpoint', function() {
+
+    it('should delete slam crown user and return a 202 status', function() {
+        
+        let user;
+
+        return User
+          .findOne()
+          .then(function(_user) {
+            user = _user;
+            return chai.request(app).delete(`/api/${user._id}`);
+          })
+          .then(function(res) {
+            expect(res).to.have.status(202);
+            return User.findById(user.id);
+          })
+          .then(function(user) {
+            expect(user).to.be.null;
+          });
+      });
+    });
 });

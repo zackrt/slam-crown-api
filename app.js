@@ -29,6 +29,7 @@ app.put('/api/:id', (req,res) => {
               {EmailAddress: req.body.EmailAddress},
               req.body,
               {new: true},
+              res.status(201),
               (err, SlamCrownUser) => {
                 if (err) return res.status(500).send(err);
                 res.send(SlamCrownUser);
@@ -36,14 +37,14 @@ app.put('/api/:id', (req,res) => {
         } catch (e) {
             res.status(500).json({ message: 'Internal server error, account cannot be updated' });
         }
-    });
+    })
 });
 
-app.delete('/api/', jwtAuth (req, res) => {
+app.delete('/api/', jwtAuth, (req, res) => {
     console.log(req);
     try {
         SlamCrownUser.deleteOne({EmailAddress: req.body.EmailAddress}).then(users => {
-            res.status(200).json({ message: "Your slam crown account was deleted"})
+            res.status(202).json({ message: "Your slam crown account was deleted"})
         })
     } catch (e) {
         res.status(500).json({ message: 'Internal server error, account cannot be deleted' });
