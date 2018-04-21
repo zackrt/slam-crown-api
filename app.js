@@ -1,9 +1,11 @@
 const express = require('express');
 const app = express();
 
+const passport = require('passport');
 const PORT = process.env.PORT || 8080;
 const cors = require('cors');
 const {CLIENT_ORIGIN} = require('./config');
+const jwtAuth = passport.authenticate('jwt', { session: false });
 
 app.use(
     cors({
@@ -37,9 +39,7 @@ app.put('/api/:id', (req,res) => {
         } catch (e) {
             res.status(500).json({ message: 'Internal server error, account cannot be updated' });
         }
-    })
-});
-
+    });
 app.delete('/api/', jwtAuth, (req, res) => {
     console.log(req);
     try {
