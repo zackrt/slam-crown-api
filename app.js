@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 8080;
 const cors = require('cors');
 const {CLIENT_ORIGIN} = require('./config');
 const jwtAuth = passport.authenticate('jwt', { session: false });
-
+console.log(jwtAuth);
 app.use(
     cors({
         origin: CLIENT_ORIGIN
@@ -17,7 +17,7 @@ app.get('/api/*', (req, res) => {
   res.json({ok: true});
 });
 
-app.post('/api/:id', (req,res) => {
+app.post('/api/:id', jwtAuth, (req,res) => {
   res.json({ok:true})
     .then(() => {
         res.new(SlamCrownUser)
@@ -25,6 +25,7 @@ app.post('/api/:id', (req,res) => {
         })
     .catch(err);
 });
+
 app.put('/api/:id', (req,res) => {
         try {
             SlamCrownUser.findOneAndUpdate(
