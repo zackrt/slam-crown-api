@@ -13,4 +13,10 @@ const createAuthToken = function(user) {
         expiresIn: config.JWT_EXPIRY,
         algorithm: 'HS256'
     });
+};
+const localAuth = passport.authenticate('local', {session:false});
+router.use(bodyParser.json());
+router.post('/login', localAuth, (req, res) => {
+    const authToken = createAuthToken(req.user.serialize());
+    const jwtAuth = passport.authenticate('jwt', { session: false });
 }
