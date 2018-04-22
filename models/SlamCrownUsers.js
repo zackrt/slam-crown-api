@@ -24,5 +24,5 @@ userSchema.methods.serialize = function() {
   };
   // note that all instance methods and virtual properties on our
   // schema must be defined *before* we make the call to `.model`.
-  const User = mongoose.model('User', userSchema);
-  module.exports = {User};
+  const SlamCrownUser = mongoose.model('User', userSchema);
+  module.exports = {SlamCrownUser};
