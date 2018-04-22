@@ -14,7 +14,7 @@ userSchema.methods.serialize = function() {
       DateOfConcussion: this.DateOfConcussion
     };
   }
-  
+// bcrpyt password hashing cipher: encryption  
   userSchema.methods.validatePassword = function(password) {
     return bcrypt.compare(password, this.password);
   }
@@ -22,6 +22,9 @@ userSchema.methods.serialize = function() {
   userSchema.statics.hashPassword = function (password) {
     return bcrypt.hash(password, 10);
   };
+// add a virtual?
+
+
   // note that all instance methods and virtual properties on our
   // schema must be defined *before* we make the call to `.model`.
   const SlamCrownUser = mongoose.model('User', userSchema);
