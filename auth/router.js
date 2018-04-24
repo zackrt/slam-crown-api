@@ -7,6 +7,7 @@ var path = require('path');
 var appDir = path.dirname(require.main.filename);
 const config = require('../config');
 const router = express.Router();
+
 const createAuthToken = function(user) {
     return jwt.sign({user}, config.JWT_SECRET, {
         subject: user.EmailAddress,
@@ -23,7 +24,11 @@ router.post('/login', localAuth, (req, res) => {
 
 });
 const jwtAuth = passport.authenticate('jwt', {session: false});
-router.post('/refresh', jwtAuth, (req, res) => {
+router.post('/sign-up', jwtAuth, (req, res) => {
+    const authToken = createAuthToken(req.user);
+    res.json({authToken});
+});
+router.post('/userpage.js', jwtAuth, (req, res) => {
     const authToken = createAuthToken(req.user);
     res.json({authToken});
 });
