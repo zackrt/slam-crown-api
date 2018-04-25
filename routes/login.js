@@ -1,10 +1,16 @@
 var express = require('express');
 var router = express.Router();
-/*local strategies needed*/
+const { SlamCrownUser } = require('../models/SlamCrownUsers');
+const passport = require('passport');
+const jwtAuth = passport.authenticate('jwt', { session: false });
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Slam Crown Login' });
 });
+router.post('/', function(res, req) {
+  let {password, EmailAddress} = req.body;
+  res.body
+});
+
 
 module.exports = router;
