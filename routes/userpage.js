@@ -1,8 +1,4 @@
-var express = require('express');
-var router = express.Router();
-
 /* GET SlamCrownUsers listing. */
-
 var express = require('express');
 var router = express.Router();
 const { SlamCrownUser } = require('../models/SlamCrownUsers');
