@@ -8,9 +8,6 @@ router.get('/', function(req, res, next) {
 /* 
 needs router.post for EmailAddress, hashed password, and date of concussion 
 */
-router.get ('/', function (req, res) {
-    SlamCrownUser
-});
 router.post('/', jwtAuth, function (req, res) {
   let RequiredFields = {EmailAddress, password}
   try {
