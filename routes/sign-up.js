@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var bodyparser = require 
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
 const { SlamCrownUser } = require('../models/SlamCrownUsers');
 /* GET users listing. to render the page */
 router.get('/', function(req, res, next) {
