@@ -1,7 +1,7 @@
 /* GET SlamCrownUsers listing. */
 var express = require('express');
 var router = express.Router();
-const { SlamCrownUser } = require('../models/SlamCrownUsers');
+const { User } = require('../models/SlamCrownUsers');
 const passport = require('passport');
 const jwtAuth = passport.authenticate('jwt', { session: false });
 /* need json or bodyparser? */
@@ -9,7 +9,7 @@ router.get('/', jwtAuth,(req, res) => {
   let user;
    console.log('GET THE USER DATA AND SEND IT TO THE PAGE',req.query)
    try {
-        SlamCrownUser.findOne({EmailAddress: req.query.EmailAddress}).then(user => {
+        User.findOne({EmailAddress: req.query.EmailAddress}).then(user => {
             res.json({user:user.serialize()})
         })
    } catch(err) {

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { SlamCrownUser } = require('../models/SlamCrownUsers');
+const { User } = require('../models/SlamCrownUsers');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 const passport = require('passport');
