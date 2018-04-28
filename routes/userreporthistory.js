@@ -10,5 +10,4 @@ router.get('/', function (req, res) {
         .status(200);
 }
 
-
 module.exports = router;
