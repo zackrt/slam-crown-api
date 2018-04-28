@@ -3,7 +3,7 @@ var router = express.Router();
 var localStrategy = require('/auth/strategies');
 /*local strategies needed*/
 
-/* GET home page. */
+/* GET home page or index.js/ slam crown landing page. */
 router.get('/', localStrategy, function(req, res, next) {
   res.render('index', { title: 'Slam Crown App' });
 });
