@@ -19,7 +19,7 @@ router.get('/', jwtAuth,(req, res) => {
 router.post('/', jwtAuth,(req, res) => {
   let user;
   try {
-      SlamCrownUser.create({EmailAddress: req.body.EmailAddress}).then(user => {
+      User.create({EmailAddress: req.body.EmailAddress}).then(user => {
           res.status(201).json({user:user.serialize()})
     })
   } catch(err) {
@@ -30,7 +30,7 @@ router.post('/', jwtAuth,(req, res) => {
 router.delete('/', jwtAuth, (req, res) => {
     console.log(req);
     try {
-        SlamCrownUser.deleteOne({EmailAddress: req.body.EmailAddress}).then(users => {
+        User.deleteOne({EmailAddress: req.body.EmailAddress}).then(users => {
         res.status(200).json({ message: "Your Slam Crown Account was deleted!" })
     }) 
     } catch (e) {
@@ -40,7 +40,7 @@ router.delete('/', jwtAuth, (req, res) => {
 //update account 
 router.put('/', jwtAuth,(req, res) =>{
     try {
-        SlamCrownUser.findOneAndUpdate(
+        User.findOneAndUpdate(
           {EmailAddress: req.body.EmailAddress},
           req.body,
           {new: true},

@@ -3,29 +3,29 @@ const mongoose = require('mongoose');
 const bcrypt = require ('bcryptjs');
 
 const userSchema = mongoose.Schema({
-  EmailAddress: {type: String, required: true},
+  emailAddress: {type: String, required: true},
   password: {type: String,required: true},
-  DateOfConcussion: {type: Date, required:true}
+  dateOfConcussion: {type: Date, required:true}
 });
 userSchema.methods.serialize = function() {
     return {
       id: this._id,
-      EmailAddress: this.EmailAddress,
-      DateOfConcussion: this.DateOfConcussion
+      emailAddress: this.emailAddress,
+      dateOfConcussion: this.dateOfConcussion
     };
   }
 // bcrpyt password hashing cipher: encryption  
   userSchema.methods.validatePassword = function(password) {
-    return bcrypt.compare(password, this.password);
+    return bcrypt.compareSync(password, this.password);
   }
   
   userSchema.statics.hashPassword = function (password) {
-    return bcrypt.hash(password, 10);
+    return bcrypt.hashSync(password, 10);
   };
-// add a virtual?
+
 
 
   // note that all instance methods and virtual properties on our
   // schema must be defined *before* we make the call to `.model`.
-  const SlamCrownUser = mongoose.model('User', userSchema);
-  module.exports = {SlamCrownUser};
+  const User = mongoose.model('User', userSchema);
+  module.exports = {User};

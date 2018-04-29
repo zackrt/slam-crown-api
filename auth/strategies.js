@@ -3,7 +3,7 @@ import { model } from 'mongoose';
 'use strict';
 const { Strategy: LocalStrategy, ExtractJwt } = require('passport-local');
 
-const { SlamCrownUser } = require('../models/users');
+const { User } = require('../models/users');
 const { JWT_SECRET } = require('../config');
 
 const LocalStrategy = new LocalStrategy({usernameField: 'EmailAddress'}, (EmailAddress, password, callback) => {
