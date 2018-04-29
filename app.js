@@ -7,6 +7,7 @@ const passport = require('passport');
 const cors = require('cors');
 const { User } = require('./models/SlamCrownUsers');
 const { DATABASE_URL, PORT, CLIENT_ORIGIN } = require ('./config');
+
 mongoose.connect(DATABASE_URL)
 
 
@@ -62,7 +63,16 @@ app.post('/api/test/:id', (req, res) => {
     //   req.query - query string usually used in get request. ?x=1&y=2 can be add to the end of url, the left of equals is the keys, right is the values, they are split by the &
     
 })
-app.put('/api/users/:id', (req,res) => {
+app.post('/api/login', (req,res) => {
+    // 
+    //
+    //
+    res.json({
+        token:"bearer auth"
+    })
+})
+
+app.put('/api/users/:id', jwtAuth (req,res) => {
 
 
     res.json({message:`Updating specific user email and date of Concussion ${req.params.id}`});
