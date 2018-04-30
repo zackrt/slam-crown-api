@@ -67,12 +67,13 @@ app.post('/api/login', (req,res) => {
     // 
     //
     //
+
     res.json({
         token:"bearer auth"
     })
 })
-
-app.put('/api/users/:id', jwtAuth (req,res) => {
+// will need jwtAuth
+app.put('/api/users/:id', (req,res) => {
 
 
     res.json({message:`Updating specific user email and date of Concussion ${req.params.id}`});
