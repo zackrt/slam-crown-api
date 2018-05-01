@@ -58,20 +58,29 @@ app.post('/api/test/:id', (req, res) => {
     res.json({body:res.body, params: res.params, query: req.query});
 
     // 3 things from req.  
-    //   req.body -used in postman or submitted in form data, passing in email and password
+    //   req.body -used in postman or submitted in form data, passing in emailAddress and password
     //   req.params - endpoint related, every :id object of that specific id would be req.params
     //   req.query - query string usually used in get request. ?x=1&y=2 can be add to the end of url, the left of equals is the keys, right is the values, they are split by the &
     
 })
-app.post('/api/login', (req,res) => {
-    // 
-    //
-    //
-
-    res.json({
-        token:"bearer auth"
-    })
-})
+app.post('/api/login', function (req, res) {
+    passport.authenticate('local', {session: false}, (err, user, info) => {
+        if (err || !user) {
+            return res.status(400).json({
+                message: 'Something is not right',
+                user   : user
+            });
+        }
+       req.login(user, {session: false}, (err) => {
+           if (err) {
+               res.send(err);
+           }
+           // generate a signed son web token with the contents of user object and return it in the response
+           const token = jwt.sign(user, 'your_jwt_secret');
+           return res.json({user, token});
+        });
+    })(req, res);
+});
 // will need jwtAuth
 app.put('/api/users/:id', (req,res) => {
 
