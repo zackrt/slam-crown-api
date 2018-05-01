@@ -3,10 +3,12 @@ const mongoose = require ('mongoose');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const jsonParser = require('body-parser');
 const passport = require('passport');
 const cors = require('cors');
 const { User } = require('./models/SlamCrownUsers');
 const { DATABASE_URL, PORT, CLIENT_ORIGIN } = require ('./config');
+const jwtAuth = require('jsonwebtoken');
 
 mongoose.connect(DATABASE_URL)
 
@@ -82,24 +84,28 @@ app.post('/api/login', function (req, res) {
     })(req, res);
 });
 // will need jwtAuth
-app.put('/api/users/:id', (req,res) => {
-
-
-    res.json({message:`Updating specific user email and date of Concussion ${req.params.id}`});
-        // try {
-        //     User.findOneAndUpdate(
-        //       {EmailAddress: req.body.EmailAddress},
-        //       req.body,
-        //       {new: true},
-        //       res.status(201),
-        //       (err, User) => {
-        //         if (err) return res.status(500).send(err);
-        //         res.send(User);
-        //       })
-        // } catch (e) {
-        //     res.status(500).json({ message: 'Internal server error, account cannot be updated' });
-        // }
+app.put('/api/users/:id', jsonParser, jwtAuth, (req, res) => {
+    const requiredFields = ['emailAddress', 'id'];
+    for (let i=0; i<requiredFields.length; i++) {
+      const field = requiredFields[i];
+      if (!(field in req.body)) {
+        const message = `Missing \`${field}\` in request body`
+        console.error(message);
+        return res.status(400).send(message);
+      }
+    }
+    if (req.params.id !== req.body.id) {
+      const message = `Request path id (${req.params.id}) and request body id (${req.body.id}) must match`;
+      console.error(message);
+      return res.status(400).send(message);
+    }
+    console.log(`Updating slam crown document \`${req.params.id}\``);
+    User.update({
+      id: req.params.id,
+      emailAddress: req.body.emailAddress
     });
+    res.status(204).end();
+  });
 // app.delete('/api/:id', jwtAuth, (req, res) => {
 //     console.log(req);
 //     try {
