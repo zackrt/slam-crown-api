@@ -1,52 +1,61 @@
-import { model } from 'mongoose';
-
 'use strict';
-const { Strategy: LocalStrategy, ExtractJwt } = require('passport-local');
-
-const { User } = require('../models/users');
+const mongoose = require ('mongoose');
+const { Strategy: LocalStrat, ExtractJwt } = require('passport-local');
+const passportJWT = require("passport-jwt");
+const jwtStrategy =  require("passport-jwt");
+const ExtractJWT = passportJWT.ExtractJwt;
+const { User } = require('../models/SlamCrownUsers');
 const { JWT_SECRET } = require('../config');
 
-const LocalStrategy = new LocalStrategy({usernameField: 'EmailAddress'}, (EmailAddress, password, callback) => {
-    let user;
-    User.findOne({ EmailAddress })
-        .then(_user => {
-            user = _user;
-            if (!user) {
+
+const localStrategy = new LocalStrat({usernameField: 'emailAddress', passwordField: 'password'}, (email, password, callback) => {
+    User.findOne({ emailAddress: email })
+        .then(user => {
+            if (!user || !user.validatePassword(password)) {
         // Return a rejected promise so we break out of the chain of .thens.
         // Any errors like this will be handled in the catch block.
-                return Promise.reject({
+                return callback({
                     reason: 'LoginError',
                     message: 'Incorrect email address or password'
                 });
             }
-        })
-        .then(isValid => {
-            if (!isValid) {
-                return Promise.reject({
-                    reason: 'LoginError',
-                    message: 'Incorrect email address or password'
-                });
-            }
-            return callback(null, user);
+            callback(null, user);
         })
         .catch(err => {
-            if (err.reason === 'LoginError') {
-                return callback(null,false, err);   
-            }
-            return callback(err,false);
+            return callback(err);
         });
 });
+// const jwtStrategy = new JwtStrategy (
+//     {
+//         secretOrKey: JWT_SECRET,
+//         // Look for the JWT as a Bearer auth header
+//         jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
 
-const jwtStrategy = new JwtStrategy (
-    {
-        secretOrKey: JWT_SECRET,
-        // Look for the JWT as a Bearer auth header
-        jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
+//         algorithms: ['HS256']
+//     },
+//     (payload, done) => {
+//         done(null, payload.user);
+//     }
+// );
+//passport.js
+// const passport = require('passport’);
+// const LocalStrategy = require('passport-local').Strategy;
+// these are passed into the body
+// passport.use(new LocalStrategy({
+//         usernameField: 'emailAddress',
+//         passwordField: 'password'
+//     }, 
+//     function (email, password, cb) {
+//         //this one is typically a DB call. Assume that the returned user object is pre-formatted and ready for storing in JWT
+//         return UserModel.findOne({email, password})
+//            .then(user => {
+//                if (!user) {
+//                    return cb(null, false, {message: 'Incorrect email or password.'});
+//                }
+//                return cb(null, user, {message: 'Logged In Successfully'});
+//           })
+//           .catch(err => cb(err));
+//     }
+// ));
 
-        algorithms: ['HS256']
-    },
-    (payload, done) => {
-        done(null, payload.user);
-    }
-);
 module.exports = { localStrategy, jwtStrategy };

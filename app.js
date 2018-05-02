@@ -3,15 +3,21 @@ const mongoose = require ('mongoose');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const jsonParser = require('body-parser');
+
 const passport = require('passport');
 const cors = require('cors');
 const { User } = require('./models/SlamCrownUsers');
 const { DATABASE_URL, PORT, CLIENT_ORIGIN } = require ('./config');
 const jwtAuth = require('jsonwebtoken');
+const { localStrategy } = require('./auth/strategies');
+const morgan = (req,res,next) => {
+    console.log(new Date());
+    next();
+}
+app.use(morgan);
 
 mongoose.connect(DATABASE_URL)
-
+passport.use(localStrategy)
 
 app.use(
     cors({
@@ -21,7 +27,7 @@ app.use(
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// parse application/json
+// parse application/ jsonParser
 app.use(bodyParser.json());
 
 //app.get('/api/*', (req, res) => {
@@ -65,9 +71,10 @@ app.post('/api/test/:id', (req, res) => {
     //   req.query - query string usually used in get request. ?x=1&y=2 can be add to the end of url, the left of equals is the keys, right is the values, they are split by the &
     
 })
-app.post('/api/login', function (req, res) {
-    passport.authenticate('local', {session: false}, (err, user, info) => {
+app.post('/api/login', function (req, res, next) {
+     passport.authenticate('local', {session: false}, (err, user, info) => {
         if (err || !user) {
+            console.log(user);
             return res.status(400).json({
                 message: 'Something is not right',
                 user   : user
@@ -77,46 +84,12 @@ app.post('/api/login', function (req, res) {
            if (err) {
                res.send(err);
            }
-           // generate a signed son web token with the contents of user object and return it in the response
+           // generate a signed json web token with the contents of user object and return it in the response
            const token = jwt.sign(user, 'your_jwt_secret');
            return res.json({user, token});
         });
-    })(req, res);
+    })(req, res, next);
 });
-// will need jwtAuth
-app.put('/api/users/:id', jsonParser, jwtAuth, (req, res) => {
-    const requiredFields = ['emailAddress', 'id'];
-    for (let i=0; i<requiredFields.length; i++) {
-      const field = requiredFields[i];
-      if (!(field in req.body)) {
-        const message = `Missing \`${field}\` in request body`
-        console.error(message);
-        return res.status(400).send(message);
-      }
-    }
-    if (req.params.id !== req.body.id) {
-      const message = `Request path id (${req.params.id}) and request body id (${req.body.id}) must match`;
-      console.error(message);
-      return res.status(400).send(message);
-    }
-    console.log(`Updating slam crown document \`${req.params.id}\``);
-    User.update({
-      id: req.params.id,
-      emailAddress: req.body.emailAddress
-    });
-    res.status(204).end();
-  });
-// app.delete('/api/:id', jwtAuth, (req, res) => {
-//     console.log(req);
-//     try {
-//         User.deleteOne({EmailAddress: req.body.EmailAddress}).then(users => {
-//             res.status(202).json({ message: "Your slam crown account was deleted"})
-//         })
-//     } catch (e) {
-//         res.status(500).json({ message: 'Internal server error, account cannot be deleted' });
-//     }
-// });
-
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 module.exports = app;
