@@ -8,8 +8,8 @@ const passport = require('passport');
 const cors = require('cors');
 const { User } = require('./models/SlamCrownUsers');
 const { DATABASE_URL, PORT, CLIENT_ORIGIN } = require ('./config');
-const jwtAuth = require('jsonwebtoken');
-const { localStrategy } = require('./auth/strategies');
+const jwt = require('jsonwebtoken');
+const { localStrategy, jwtStrategy } = require('./auth/strategies');
 const morgan = (req,res,next) => {
     console.log(new Date());
     next();
@@ -74,7 +74,7 @@ app.post('/api/test/:id', (req, res) => {
 app.post('/api/login', function (req, res, next) {
      passport.authenticate('local', {session: false}, (err, user, info) => {
         if (err || !user) {
-            console.log(user);
+            console.log(err);
             return res.status(400).json({
                 message: 'Something is not right',
                 user   : user
@@ -85,7 +85,7 @@ app.post('/api/login', function (req, res, next) {
                res.send(err);
            }
            // generate a signed json web token with the contents of user object and return it in the response
-           const token = jwt.sign(user, 'your_jwt_secret');
+           const token = jwt.sign({user, 'your_jwt_secret'});
            return res.json({user, token});
         });
     })(req, res, next);
