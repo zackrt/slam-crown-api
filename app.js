@@ -10,11 +10,6 @@ const { User } = require('./models/SlamCrownUsers');
 const { DATABASE_URL, PORT, CLIENT_ORIGIN } = require ('./config');
 const jwt = require('jsonwebtoken');
 const { localStrategy, jwtStrategy } = require('./auth/strategies');
-const morgan = (req,res,next) => {
-    console.log(new Date());
-    next();
-}
-app.use(morgan);
 
 mongoose.connect(DATABASE_URL)
 passport.use(localStrategy)
@@ -85,7 +80,7 @@ app.post('/api/login', function (req, res, next) {
                res.send(err);
            }
            // generate a signed json web token with the contents of user object and return it in the response
-           const token = jwt.sign(user, 'your_jwt_secret');
+           const token = jwt.sign({user}, 'your_jwt_secret');
            return res.json({user, token});
         });
     })(req, res, next);
