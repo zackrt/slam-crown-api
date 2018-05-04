@@ -21,13 +21,24 @@ describe('API', function() {
 
     it('should create a new slam crown user and return a 201', function() {
       return chai.request(app)
-        .post('/')
+        .post('/api/users')
         .then(function(res) {
           res.should.have.status(201);
           res.should.be.json;
         });
       })
     });
+    describe('POST endpoint', function() {
+
+      it('should create a new slam crown user and return a 201', function() {
+        return chai.request(app)
+          .post('/api/login')
+          .then(function(res) {
+            res.should.have.status(201);
+            res.should.be.json;
+          });
+        })
+      });
   describe('DELETE endpoint', function() {
 
     it('should delete slam crown user and return a 202 status', function() {
