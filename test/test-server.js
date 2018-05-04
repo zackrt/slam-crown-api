@@ -6,19 +6,18 @@ const should = chai.should();
 chai.use(chaiHttp);
 
 describe('POST endpoint', function createNewUser() {
-
   it('should create a new user', function () {
-    // strategy:
-    //    1. get back all posts returned by by GET request to `/api/users`
+    // strategy:   1. make POST to `/api/users`
     //    2. prove res has right status 201, data type
     //    3. prove the new user was created
     let res;
+    let user;
     let newUser = {
       password: 'asdfjkl',
       EmailAddress: 'mocha@slam-crown.com'
     }
     return chai.request(app)
-      .post('/users')
+      .post('/api/users')
       .send(newUser)
       .then(res => {
         (res).should.have.status(201);
