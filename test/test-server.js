@@ -4,7 +4,7 @@ const app = require('../app');
 
 const should = chai.should();
 chai.use(chaiHttp);
-
+// POST test to /api/users
 describe('POST endpoint', function createNewUser() {
   it('should create a new user', function () {
     // strategy:   1. make POST to `/api/users`
