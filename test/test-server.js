@@ -34,3 +34,4 @@ describe('POST endpoint', function createNewUser() {
       })      
   });
 })
+//add post test to /api/login
