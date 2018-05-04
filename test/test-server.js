@@ -1,63 +1,37 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-
 const app = require('../app');
 
 const should = chai.should();
 chai.use(chaiHttp);
 
-describe('API', function() {
+describe('POST endpoint', function createNewUser() {
 
-  it('should 200 on GET requests', function() {
+  it('should create a new user', function () {
+    // strategy:
+    //    1. get back all posts returned by by GET request to `/api/users`
+    //    2. prove res has right status 201, data type
+    //    3. prove the new user was created
+    let res;
+    let newUser = {
+      password: 'asdfjkl',
+      EmailAddress: 'mocha@slam-crown.com'
+    }
     return chai.request(app)
-      .get('/')
-      .then(function(res) {
-        res.should.have.status(200);
-        res.should.be.json;
-      });
-  });
-
-  describe('POST endpoint', function() {
-
-    it('should create a new slam crown user and return a 201', function() {
-      return chai.request(app)
-        .post('/api/users')
-        .then(function(res) {
-          res.should.have.status(201);
-          res.should.be.json;
-        });
+      .post('/users')
+      .send(newUser)
+      .then(res => {
+        (res).should.have.status(201);
+        (res.body).should.be.an('object');
+        (res.body).should.to.include.keys(
+          'id','EmailAddress');
+        (res.body.EmailAddress).should.to.equal(newUser.EmailAddress);
+        // cause Mongo should have created id on insertion
+        (res.body.id).should.not.be.null;
+        return User.findById(res.body.id);
       })
-    });
-    describe('POST endpoint', function() {
-
-      it('should create a new slam crown user and return a 201', function() {
-        return chai.request(app)
-          .post('/api/login')
-          .then(function(res) {
-            res.should.have.status(201);
-            res.should.be.json;
-          });
-        })
-      });
-  describe('DELETE endpoint', function() {
-
-    it('should delete slam crown user and return a 202 status', function() {
-        
-        let user;
-
-        return User
-          .findOne()
-          .then(function(_user) {
-            user = _user;
-            return chai.request(app).delete(`/${user._id}`);
-          })
-          .then(function(res) {
-            expect(res).to.have.status(202);
-            return User.findById(user.id);
-          })
-          .then(function(user) {
-            expect(user).to.be.null;
-          });
-      });
-    });
-});
+      .then(user => {
+        (user.EmailAddress).should.to.equal(newUser.EmailAddress);
+      })      
+  });
+})

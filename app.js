@@ -10,18 +10,18 @@ const { User } = require('./models/SlamCrownUsers');
 const { DATABASE_URL, PORT, CLIENT_ORIGIN } = require ('./config');
 const jwt = require('jsonwebtoken');
 const { localStrategy, jwtStrategy } = require('./auth/strategies');
-const {API_BASE_URL} = require('./config');
+// const {API_BASE_URL} = require('./config');
 
-export const fetchUserProfile = (userid) => dispatch => {
-    fetch(`${API_BASE_URL}/users/${userId}`).then(res => {
-        if (!res.ok) {
-            return Promise.reject(res.statusText);
-        }
-        return res.json();
-    }).then(userProfile => {
-        dispatch(fetchUserProfileSuccess(userProfile));
-    }).catch(err => dispatch(fetchUserProfileError(err)));
-};
+// export const fetchUserProfile = (userid) => dispatch => {
+//     fetch(`${API_BASE_URL}/users/${userId}`).then(res => {
+//         if (!res.ok) {
+//             return Promise.reject(res.statusText);
+//         }
+//         return res.json();
+//     }).then(userProfile => {
+//         dispatch(fetchUserProfileSuccess(userProfile));
+//     }).catch(err => dispatch(fetchUserProfileError(err)));
+// };
 
 mongoose.connect(DATABASE_URL)
 passport.use(localStrategy)
@@ -37,9 +37,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/ jsonParser
 app.use(bodyParser.json());
 
-//app.get('/api/*', (req, res) => {
-//  res.json({ok: true});
-//});
+app.get('/api/*', (req, res) => {
+ res.json({ok: true});
+});
 
 // POST- /api/users to create a new user, no auth needed
 // PUT - /api/users/:id to update, and change their email, and date of concussion 
