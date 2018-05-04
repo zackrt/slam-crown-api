@@ -10,6 +10,18 @@ const { User } = require('./models/SlamCrownUsers');
 const { DATABASE_URL, PORT, CLIENT_ORIGIN } = require ('./config');
 const jwt = require('jsonwebtoken');
 const { localStrategy, jwtStrategy } = require('./auth/strategies');
+const {API_BASE_URL} = require('./config');
+
+export const fetchUserProfile = (userid) => dispatch => {
+    fetch(`${API_BASE_URL}/users/${userId}`).then(res => {
+        if (!res.ok) {
+            return Promise.reject(res.statusText);
+        }
+        return res.json();
+    }).then(userProfile => {
+        dispatch(fetchUserProfileSuccess(userProfile));
+    }).catch(err => dispatch(fetchUserProfileError(err)));
+};
 
 mongoose.connect(DATABASE_URL)
 passport.use(localStrategy)
