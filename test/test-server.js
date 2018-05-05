@@ -1,37 +1,26 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../app');
-
+const request = require('chai');
 const should = chai.should();
 chai.use(chaiHttp);
+
 // POST test to /api/users
+describe('API POST TEST in APP', function() {
 describe('POST endpoint', function createNewUser() {
-  it('should create a new user', function () {
-    // strategy:   1. make POST to `/api/users`
-    //    2. prove res has right status 201, data type
-    //    3. prove the new user was created
-    let res;
-    let user;
-    let newUser = {
-      password: 'asdfjkl',
-      EmailAddress: 'mocha@slam-crown.com'
-    }
-    return chai.request(app)
+  it('should respond with redirect on post', function(done) {
+    request(app)
       .post('/api/users')
-      .send(newUser)
-      .then(res => {
-        (res).should.have.status(201);
-        (res.body).should.be.an('object');
-        (res.body).should.to.include.keys(
-          'id','EmailAddress');
-        (res.body.EmailAddress).should.to.equal(newUser.EmailAddress);
-        // cause Mongo should have created id on insertion
-        (res.body.id).should.not.be.null;
-        return User.findById(res.body.id);
-      })
-      .then(user => {
-        (user.EmailAddress).should.to.equal(newUser.EmailAddress);
-      })      
-  });
+      .send({"EmailAddress":{"EmailAddress":"new@email.com"}})
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end(function(err, res) {
+        if (err) done(err);
+        res.body.should.have.property('EmailAddress');
+        res.body.participant.should.have.property('EmailAddress', 'new@email.com');
+
+         });
+done(); 
+});
 })
-//add post test to /api/login
+})
