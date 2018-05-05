@@ -9,7 +9,7 @@ app.use(morgan('common'));
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/views/index.html');
+  res.sendFile(__dirname + '/routes/index.html');
 });
 
 app.use('/login', loginRouter);
