@@ -3,9 +3,6 @@ const morgan = require('morgan');
 
 const app = express();
 
-const shoppingListRouter = require('./shoppingListRouter');
-const recipesRouter = require('./recipesRouter');
-
 // log the http layer
 app.use(morgan('common'));
 
@@ -15,8 +12,8 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-app.use('/shopping-list', shoppingListRouter);
-app.use('/recipes', recipesRouter);
+app.use('/login', loginRouter);
+app.use('/users', SlamCrownUsersRouter);
 
 function runServer() {
   const port = process.env.PORT || 8080;
