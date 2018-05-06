@@ -1,19 +1,19 @@
 const express = require('express');
 const morgan = require('morgan');
 
-const app = express();
+const app1 = express();
 
 // log the http layer
-app.use(morgan('common'));
+app1.use(morgan('common'));
 
-app.use(express.static('public'));
+app1.use(express.static('public'));
 
-app.get('/', (req, res) => {
+app1.get('/', (req, res) => {
   res.sendFile(__dirname + '/routes/index.html');
 });
 
-app.use('/login', loginRouter);
-app.use('/users', SlamCrownUsersRouter);
+app1.use('/login', loginRouter);
+app1.use('/users', SlamCrownUsersRouter);
 
 function runServer() {
   const port = process.env.PORT || 8080;
@@ -67,4 +67,4 @@ if (require.main === module) {
   runServer().catch(err => console.error(err));
 };
 
-module.exports = {app, runServer, closeServer};
+module.exports = {app1, runServer, closeServer};
