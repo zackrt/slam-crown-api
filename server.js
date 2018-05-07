@@ -1,7 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const loginRouter = require('./routes/login')
-const SlamCrownUsersRouter = require('./routes/login')
+const SlamCrownUsersRouter = require('./routes/userpage')
 
 const app1 = express();
 
