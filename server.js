@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
-const loginRouter = require('')
+const loginRouter = require('./routes/login')
+const SlamCrownUsersRouter = require('./routes/login')
 
 const app1 = express();
 
@@ -19,7 +20,7 @@ app1.use('/users', SlamCrownUsersRouter);
 function runServer() {
   const port = process.env.PORT || 8080;
   return new Promise((resolve, reject) => {
-    app.listen(port, () => {
+    app1.listen(port, () => {
       console.log(`Your app is listening on port ${port}`);
       resolve();
     })
@@ -36,7 +37,7 @@ let server;
 function runServer() {
   const port = process.env.PORT || 8080;
   return new Promise((resolve, reject) => {
-    server = app.listen(port, () => {
+    server = app1.listen(port, () => {
       console.log(`Your app is listening on port ${port}`);
       resolve(server);
     }).on('error', err => {
