@@ -23,9 +23,10 @@ describe('POST endpoint', function createNewUser() {
       console.log(res);
       expect(res).to.have.status(201);
       expect(res).to.be.json;
-    });
+    }); 
   });
 });
+done();
 // describe('login POST endpoint', function() {
 //   const newUser = {
 //     EmailAddress:'new@email.com',
