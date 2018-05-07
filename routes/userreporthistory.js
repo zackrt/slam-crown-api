@@ -8,6 +8,6 @@ const jwtAuth = passport.authenticate('jwt', { session: false });
 router.get('/', function (req, res) {
     res.render('userreporthistory', {title: 'Past Report History'})
         .status(200);
-}
+})
 
 module.exports = router;
