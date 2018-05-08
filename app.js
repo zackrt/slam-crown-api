@@ -44,6 +44,7 @@ app.use(bodyParser.json());
 // DELETE - /api/users/:id delete id user, response that account is deleted
 
 app.post('/api/users', (req,res) => {
+
     const requiredFields = [ 'emailAddress' , 'password', 'dateOfConcussion'];
     for (let i=0; i<requiredFields.length; i++) {
         const field = requiredFields[i];
@@ -58,8 +59,10 @@ app.post('/api/users', (req,res) => {
           dateOfConcussion:req.body.dateOfConcussion,
           password:User.hashPassword(req.body.password)
         } 
-    User.create(user)
+ 
+    return User.create(user)
       .then(function(document){
+          console.log(document);
         res.status(201).json(document.serialize());
         })
         .catch(function(error) {

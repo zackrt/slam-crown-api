@@ -6,6 +6,8 @@ const request = require('chai').request;
 const should = chai.should();
 chai.use(chaiHttp);
 
+
+
 // POST test to /api/users
 describe('API POST TEST in APP', function() {
 
@@ -17,16 +19,16 @@ describe('POST endpoint', function createNewUser() {
   };
   it('should respond with 201 and redirect on post', function(done) {
     return chai.request(app)
-    .post('/api/users')
+    .post('http://localhost:8080/api/users')
     .send(newUser)
     .then(function(res){
-      console.log(res);
+      console.log('res');
       expect(res).to.have.status(201);
       expect(res).to.be.json;
+      done();
     }); 
   });
 });
-done();
 // describe('login POST endpoint', function() {
 //   const newUser = {
 //     EmailAddress:'new@email.com',
