@@ -7,7 +7,6 @@ const should = chai.should();
 chai.use(chaiHttp);
 
 
-
 // POST test to /api/users
 describe('API POST TEST in APP', function() {
 

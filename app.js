@@ -22,8 +22,8 @@ const { localStrategy, jwtStrategy } = require('./auth/strategies');
 //         dispatch(fetchUserProfileSuccess(userProfile));
 //     }).catch(err => dispatch(fetchUserProfileError(err)));
 // };
-mongoose.connect(DATABASE_URL)
-passport.use(localStrategy)
+mongoose.connect(DATABASE_URL);
+passport.use(localStrategy);
 app.use(
     cors({
         origin: CLIENT_ORIGIN
