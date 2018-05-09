@@ -1,7 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const app = require('../app');
-const {app1, runServer, closeServer} = require('../server');
+const { app, runServer, closeServer } = require('./app');
 const request = require('chai').request;
 const should = chai.should();
 chai.use(chaiHttp);
@@ -16,9 +15,9 @@ describe('POST endpoint', function createNewUser() {
     password:'abcd',
     dateOfConcussion:'05-05-2018'
   };
-  it('should respond with 201 and redirect on post', function(done) {
+  it('should respond with 201, create a new user and redirect on post', function(done) {
     return chai.request(app)
-    .post('http://localhost:8080/api/users')
+    .post('./api/users')
     .send(newUser)
     .then(function(res){
       console.log('res');

@@ -1,16 +1,16 @@
 var express = require('express');
-var SlamCrownUsersRouter = express.Router();
+var slamCrownUsersRouter = express.Router();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 const { User } = require('../models/SlamCrownUsers');
 /* GET users listing. to render the page */
-SlamCrownUsersRouter.get('/', function(req, res, next) {
+slamCrownUsersRouter.get('/', function(req, res, next) {
   res.send('Slam Crown Sign-up page');
 });
 /* 
 needs router.post for EmailAddress, hashed password, and date of concussion 
  create a new user*/
- SlamCrownUsersRouter.post('/', bodyparser, function (req, res) {
+ slamCrownUsersRouter.post('/', bodyParser, function (req, res) {
   let RequiredFields = {EmailAddress, password}
   try {
     User.create({EmailAddress: req.body.EmailAddress}).then(user => {
@@ -21,4 +21,4 @@ needs router.post for EmailAddress, hashed password, and date of concussion
      };
 });
 
-module.exports = SlamCrownUsersRouter;
+module.exports = slamCrownUsersRouter;

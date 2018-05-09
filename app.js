@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const cors = require('cors');
 const { User } = require('./models/SlamCrownUsers');
+const { loginRouter } = require('./routes/login')
+const { slamCrownUsersRouter} = require('./routes/sign-up')
 const { DATABASE_URL, PORT, CLIENT_ORIGIN } = require ('./config');
 const jwt = require('jsonwebtoken');
 const { localStrategy, jwtStrategy } = require('./auth/strategies');
@@ -23,6 +25,7 @@ const { localStrategy, jwtStrategy } = require('./auth/strategies');
 //     }).catch(err => dispatch(fetchUserProfileError(err)));
 // };
 mongoose.connect(DATABASE_URL);
+mongoose.Promise = global.Promise;
 passport.use(localStrategy);
 app.use(
     cors({
@@ -31,7 +34,8 @@ app.use(
 );
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
-
+app.use('/api/users', slamCrownUsersRouter);
+app.use('/api/login', loginRouter);
 // parse application/ jsonParser
 app.use(bodyParser.json());
 
@@ -44,13 +48,12 @@ app.use(bodyParser.json());
 // DELETE - /api/users/:id delete id user, response that account is deleted
 
 app.post('/api/users', (req,res) => {
-
+    let document;
     const requiredFields = [ 'emailAddress' , 'password', 'dateOfConcussion'];
     for (let i=0; i<requiredFields.length; i++) {
         const field = requiredFields[i];
         if (!(field in req.body)) {
           const message = `Missing \`${field}\` in request body`
-
           return res.status(400).send(message);
         }
       }
@@ -59,7 +62,6 @@ app.post('/api/users', (req,res) => {
           dateOfConcussion:req.body.dateOfConcussion,
           password:User.hashPassword(req.body.password)
         } 
- 
     return User.create(user)
       .then(function(document){
           console.log(document);
@@ -98,6 +100,47 @@ app.post('/api/login', function (req, res, next) {
         });
     })(req, res, next);
 });
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
-module.exports = app;
+let server;
+
+// this function starts our server and returns a Promise.
+// In our test code, we need a way of asynchronously starting
+// our server, since we'll be dealing with promises there.
+function runServer() {
+  const port = process.env.PORT || 8080;
+  return new Promise((resolve, reject) => {
+    server = app.listen(port, () => {
+      console.log(`Your app is listening on port ${port}`);
+      resolve(server);
+    }).on('error', err => {
+      reject(err)
+    });
+  });
+}
+
+// like `runServer`, this function also needs to return a promise.
+// `server.close` does not return a promise on its own, so we manually
+// create one.
+function closeServer() {
+  return new Promise((resolve, reject) => {
+    console.log('Closing server');
+    server.close(err => {
+      if (err) {
+        reject(err);
+        // so we don't also call `resolve()`
+        return;
+      }
+      resolve();
+    });
+  });
+}
+// if server.js is called directly (aka, with `node server.js`), this block
+// runs. but we also export the runServer command so other code (for instance, test code) can start the server as needed.
+if (require.main === module) {
+  runServer().catch(err => console.error(err));
+};
+
+
+//app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+
+module.exports = {app, runServer, closeServer};
