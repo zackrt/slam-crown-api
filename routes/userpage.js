@@ -5,6 +5,7 @@ const { User } = require('../models/SlamCrownUsers');
 const passport = require('passport');
 const jwtAuth = passport.authenticate('jwt', { session: false });
 /* need json or bodyparser? */
+console.log(jwtAuth,"jwt");
 router.get('/', jwtAuth,(req, res) => {
   let user;
    console.log('GET THE USER DATA AND SEND IT TO THE PAGE',req.query)

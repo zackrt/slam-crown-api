@@ -7,13 +7,14 @@ const { User } = require('../models/SlamCrownUsers');
 slamCrownUsersRouter.get('/', function(req, res, next) {
   res.send('Slam Crown Sign-up page');
 });
+console.log(jsonParser, 'jsonParser');
 /* 
 needs router.post for EmailAddress, hashed password, and date of concussion 
  create a new user*/
- slamCrownUsersRouter.post('/', bodyParser, function (req, res) {
-  let RequiredFields = {EmailAddress, password}
+ slamCrownUsersRouter.post('/', jsonParser, function (req, res) {
+  let RequiredFields = {emailAddress, password}
   try {
-    User.create({EmailAddress: req.body.EmailAddress}).then(user => {
+    User.create({EmailAddress: req.body.emailAddress}).then(user => {
         res.status(201).json({user:user.serialize()})
   });
      } catch(err) {
