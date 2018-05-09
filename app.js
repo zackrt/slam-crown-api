@@ -74,25 +74,25 @@ app.post('/api/users', (req,res) => {
 //     //   req.query - query string usually used in get request. ?x=1&y=2 can be add to the end of url, the left of equals is the keys, right is the values, they are split by the &
     
 // })
-// app.post('/api/login', function (req, res, next) {
-//      passport.authenticate('local', {session: false}, (err, user, info) => {
-//         if (err || !user) {
-//             console.log(err);
-//             return res.status(400).json({
-//                 message: 'Something is not right',
-//                 user   : user
-//             });
-//         }
-//         req.login(user, {session: false}, (err) => {
-//            if (err) {
-//                res.send(err);
-//            }
-//            // generate a signed json web token with the contents of user object and return it in the response
-//            const token = jwt.sign({user}, 'your_jwt_secret');
-//            return res.json({user, token});
-//         });
-//     })(req, res, next);
-// });
+app.post('/api/login', function (req, res, next) {
+     passport.authenticate('local', {session: false}, (err, user, info) => {
+        if (err || !user) {
+            console.log(err);
+            return res.status(400).json({
+                message: 'Something is not right',
+                user   : user
+            });
+        }
+        req.login(user, {session: false}, (err) => {
+           if (err) {
+               res.send(err);
+           }
+           // generate a signed json web token with the contents of user object and return it in the response
+           const token = jwt.sign({user}, 'your_jwt_secret');
+           return res.json({user, token});
+        });
+    })(req, res, next);
+});
 
 let server;
 
