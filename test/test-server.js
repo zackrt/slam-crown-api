@@ -1,18 +1,29 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const { app, runServer, closeServer } = require('./app');
+const { app, runServer, closeServer } = require('../app');
 const request = require('chai').request;
+const DATABASE_URL = require('../config');
 const should = chai.should();
 chai.use(chaiHttp);
 
 
 // POST test to /api/users
 describe('API POST TEST in APP', function() {
-
-describe('POST endpoint', function createNewUser() {
+    before(function() {
+      // runs before each test in this block
+      return runServer(DATABASE_URL);
+    });
+  
+    after(function() {
+      // runs after each test in this block
+      return closeServer();
+    });
+  
+    // test cases
+describe('./api/users POST endpoint', function createNewUser() {
   const newUser = {
     emailAddress:'new@email.com',
-    password:'abcd',
+    password:'abcdefg',
     dateOfConcussion:'05-05-2018'
   };
   it('should respond with 201, create a new user and redirect on post', function(done) {
@@ -44,5 +55,5 @@ describe('POST endpoint', function createNewUser() {
 //         res.body.should.have.property('emailAddress');
 //         res.body.emailAddress.should.have.property('emailAddress', 'new@email.com');
 //          });
-//     setTimeout(done, 300); 
+     //setTimeout(done, 300); 
 });
