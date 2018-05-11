@@ -102,6 +102,7 @@ app.post('/api/users', (req,res) => {
   function runServer(databaseUrl = DATABASE_URL, port = PORT) {
     return new Promise((resolve, reject) => {
     mongoose.connect(databaseUrl, err => {
+      console.log('this is database_url, app.js', DATABASE_URL);
         if(err) {
           return reject(err);
         }
