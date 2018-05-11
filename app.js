@@ -51,11 +51,11 @@ app.post('/api/users', (req,res) => {
       return res.status(400).send(message);
     }
   }
-  //THROWING TypeError: User.hashPassword is not a function!
+  //THROWING TypeError: User.hashPassword is not a function, using bcrypt, changing it password.hashSync threw a reference error!
   const user = {
     emailAddress:req.body.emailAddress,
-    dateOfConcussion:req.body.dateOfConcussion,
-    password:User.hashPassword(req.body.password)
+    password:User.hashSync(req.body.password),
+    dateOfConcussion:req.body.dateOfConcussion
   }
   return User.create(user)
   .then(function(document){
