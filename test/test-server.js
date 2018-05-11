@@ -11,6 +11,7 @@ chai.use(chaiHttp);
 describe('API POST TEST in APP', function() {
     before(function() {
       // runs before each test in this block
+      console.log('this is test-server.js DATABASE_URL', DATABASE_URL);
       return runServer(DATABASE_URL);
     });
   
