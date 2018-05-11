@@ -23,5 +23,4 @@ needs router.post for EmailAddress, hashed password, and date of concussion
      };
   })
 
-
 module.exports = slamCrownUsersRouter;

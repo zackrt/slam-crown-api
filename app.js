@@ -1,4 +1,4 @@
-'use strict';
+
 const express = require('express');
 const mongoose = require ('mongoose');
 mongoose.Promise = global.Promise;
@@ -34,6 +34,7 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/router', router);
+app.use('/slamCrownUserRouter', slamCrownUsersRouter);
 // parse application/ jsonParser
 
 // POST- /api/users to create a new user, no auth needed
@@ -50,11 +51,12 @@ app.post('/api/users', (req,res) => {
       return res.status(400).send(message);
     }
   }
+  //THROWING TypeError: User.hashPassword is not a function!
   const user = {
     emailAddress:req.body.emailAddress,
     dateOfConcussion:req.body.dateOfConcussion,
-    password:User.hashPassword(req.body.password),
-  } 
+    password:User.hashPassword(req.body.password)
+  }
   return User.create(user)
   .then(function(document){
     console.log('this is the document', document);
