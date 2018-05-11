@@ -53,11 +53,11 @@ app.post('/api/users', (req,res) => {
   const user = {
     emailAddress:req.body.emailAddress,
     dateOfConcussion:req.body.dateOfConcussion,
-    password:User.hashPassword(req.body.password)
+    password:User.hashPassword(req.body.password),
   } 
   return User.create(user)
   .then(function(document){
-    console.log(document);
+    console.log('this is the document', document);
     res.status(201).json(document.serialize());
   })
   .catch(function(error) {
@@ -102,7 +102,6 @@ app.post('/api/users', (req,res) => {
   function runServer(databaseUrl = DATABASE_URL, port = PORT) {
     return new Promise((resolve, reject) => {
     mongoose.connect(databaseUrl, err => {
-      console.log('this is database_url, app.js', DATABASE_URL);
         if(err) {
           return reject(err);
         }

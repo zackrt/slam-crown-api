@@ -2,7 +2,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const { app, runServer, closeServer } = require('../app');
 const request = require('chai').request;
-const DATABASE_URL = require('../config');
+const {DATABASE_URL} = require('../config');
 const should = chai.should();
 chai.use(chaiHttp);
 
@@ -11,7 +11,6 @@ chai.use(chaiHttp);
 describe('API POST TEST in APP', function() {
     before(function() {
       // runs before each test in this block
-      console.log('this is test-server.js DATABASE_URL', DATABASE_URL);
       return runServer(DATABASE_URL);
     });
   
@@ -21,18 +20,18 @@ describe('API POST TEST in APP', function() {
     });
   
     // test cases
-describe('./api/users POST endpoint', function createNewUser() {
+describe('/api/users POST endpoint', function createNewUser() {
   const newUser = {
     emailAddress:'new@email.com',
-    password:'abcdefg',
-    dateOfConcussion:'05-05-2018'
+    dateOfConcussion:'05-05-2018',
+    password:'abcdefg'
   };
   it('should respond with 201, create a new user and redirect on post', function(done) {
     return chai.request(app)
-    .post('./api/users')
+    .post('/api/users')
     .send(newUser)
     .then(function(res){
-      console.log('res');
+      console.log('res', res);
       expect(res).to.have.status(201);
       expect(res).to.be.json;
       done();

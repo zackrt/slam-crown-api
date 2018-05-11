@@ -29,7 +29,7 @@ router.post('/', jwtAuth,(req, res) => {
 });
 //delete SlamCrownUser account
 router.delete('/', jwtAuth, (req, res) => {
-    console.log(req);
+    console.log('req in userpage.js router', req);
     try {
         User.deleteOne({EmailAddress: req.body.EmailAddress}).then(users => {
         res.status(200).json({ message: "Your Slam Crown Account was deleted!" })
