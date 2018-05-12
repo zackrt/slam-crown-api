@@ -11,7 +11,8 @@ console.log(jsonParser, 'jsonParser');
 /* 
 needs router.post for EmailAddress, hashed password, and date of concussion 
  create a new user*/
- slamCrownUsersRouter.post('/', jsonParser, function (req, res) {
+ slamCrownUsersRouter.post('/', jsonParser, function(req, res) {
+   console.log('?');
   let RequiredFields = {emailAddress, password};
   try {
     User.create({emailAddress: req.body.emailAddress}).then(user => {

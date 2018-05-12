@@ -34,7 +34,7 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/router', router);
-app.use('/slamCrownUserRouter', slamCrownUsersRouter);
+app.use('/slamCrownUsersRouter', slamCrownUsersRouter);
 // parse application/ jsonParser
 
 // POST- /api/users to create a new user, no auth needed
@@ -54,7 +54,7 @@ app.post('/api/users', (req,res) => {
   //THROWING TypeError: User.hashPassword is not a function, using bcrypt, changing it password.hashSync threw a reference error!
   const user = {
     emailAddress:req.body.emailAddress,
-    password:User.hashSync(req.body.password),
+    password:User(req.body.password),
     dateOfConcussion:req.body.dateOfConcussion
   }
   return User.create(user)
@@ -140,6 +140,6 @@ if (require.main === module) {
   runServer().catch(err => console.error(err));
 };
 
-//app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 module.exports = {app, runServer, closeServer};
