@@ -5,10 +5,9 @@ const jsonParser = bodyParser.json();
 const { User } = require('../models/SlamCrownUsers');
 /* GET users listing. to render the page */
 slamCrownUsersRouter.get('/', function(req, res, next) {
-  console.log(res);
   res
   .status(200)
-  .send('Slam Crown Sign-up page');
+  .send('welcome to the Slam Crown Sign-up page');
 });
 console.log(jsonParser, 'jsonParser');
 /* 

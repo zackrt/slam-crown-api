@@ -58,7 +58,6 @@ app.post('/api/users', (req,res) => {
   }
   return User.create(user)
   .then(function(document){
-    console.log('this is the document', document);
     res.status(201).json(document.serialize());
   })
   .catch(function(error) {
