@@ -36,7 +36,6 @@ app.use(bodyParser.json());
 app.use('/router', router);
 app.use('/slamCrownUsersRouter', slamCrownUsersRouter);
 // parse application/ jsonParser
-
 // POST- /api/users to create a new user, no auth needed
 // PUT - /api/users/:id to update, and change their email, and date of concussion 
 // DELETE - /api/users/:id delete id user, response that account is deleted
@@ -64,7 +63,7 @@ app.post('/api/users', (req,res) => {
   })
   .catch(function(error) {
     res.status(404).json({error:error});
-  })      
+  })
 });
 // app.post('/api/test/:id', (req, res) => {
   //     console.log(req.body, req.params);
@@ -134,7 +133,7 @@ function closeServer() {
     });
   });
 }
-// if server.js is called directly (aka, with `node server.js`), this block
+// if app.js is called directly (aka, with `node server.js`), this block
 // runs. but we also export the runServer command so other code (for instance, test code) can start the server as needed.
 if (require.main === module) {
   runServer().catch(err => console.error(err));
