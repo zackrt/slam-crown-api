@@ -26,7 +26,10 @@ needs router.post for EmailAddress, hashed password, and date of concussion
     }
   try {
     User.create({emailAddress: req.body.emailAddress}).then(user => {
-        res.status(201).json({user:user.serialize()});
+        res
+          .status(201)
+          .send(`Slam Crown User \`${use}\`Created`)
+          .json({user:user.serialize()});
       console.log(user, 'user in sign-up.js');
   });
      } catch(err) {
