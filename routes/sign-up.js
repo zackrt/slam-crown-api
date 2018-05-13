@@ -14,8 +14,9 @@ console.log(jsonParser, 'jsonParser');
 needs router.post for EmailAddress, hashed password, and date of concussion 
  create a new user*/
  slamCrownUsersRouter.post('/', jsonParser, function(req, res) {
+   let {password, emailAddress, dateOfConcussion} = req.body;
    console.log('?');
-  const requiredFields = [ 'emailAddress', 'password', 'dateOfConcussion' ];
+  const requiredFields = [ 'password', 'emailAddress', 'dateOfConcussion' ];
     for (let i=0; i<requiredFields.length; i++) {
       const field = requiredFields[i];
       if (!(field in req.body)) {
@@ -25,12 +26,17 @@ needs router.post for EmailAddress, hashed password, and date of concussion
       }
     }
   try {
-    User.create({emailAddress: req.body.emailAddress}).then(user => {
+    User.create({
+      emailAddress: req.body.emailAddress,
+      password: req.body.password,
+      dateOfConcussion: req.body.dateOfConcussion
+      })
+      .then(user => {
+        console.log(res, user, 'user in sign-up.js');
         res
           .status(201)
-          .send(`Slam Crown User \`${use}\`Created`)
+          .send(`Slam Crown User \`${user}\`Created`)
           .json({user:user.serialize()});
-      console.log(user, 'user in sign-up.js');
   });
      } catch(err) {
             res.json({err})

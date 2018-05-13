@@ -4,7 +4,7 @@ const bcrypt = require ('bcryptjs');
 
 const userSchema = mongoose.Schema({
   emailAddress: {type: String, required: true},
-  password: {type: String,required: true},
+  password: {type: String, required: true},
   dateOfConcussion: {type: Date, required:true}
 });
 userSchema.methods.serialize = function() {
