@@ -1,14 +1,12 @@
 var express = require('express');
 var router = express.Router();
 const { User } = require('../models/SlamCrownUsers');
-const bodyParser = require('body-parser');
-const jsonParser = bodyParser.json();
 const passport = require('passport');
-router.get('/', jsonParser, function(req, res, next) {
-  res.render('login', { title: 'Slam Crown Login' })
+router.get('/', function(req, res, next) {
+  res.render('login', { title: 'Slam Crown Login page' })
     .status(200);
 });
-router.post('/', jsonParser, (req, res) => {
+router.post('/', (req, res) => {
   let {password, emailAddress} = req.body;
   const requiredFields = [ 'password', 'emailAddress' ];
   const missingField = requiredFields.find(field => !(field in req.body));
