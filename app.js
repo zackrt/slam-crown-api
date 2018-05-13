@@ -8,7 +8,7 @@ const passport = require('passport');
 const cors = require('cors');
 const User = require('./models/SlamCrownUsers');
 const router = require('./routes/login');
-const slamCrownUsersRouter = require('./routes/sign-up');
+const userRouter = require('./routes/sign-up');
 const { DATABASE_URL, PORT, CLIENT_ORIGIN } = require ('./config');
 const jwt = require('jsonwebtoken');
 const { localStrategy, jwtStrategy } = require('./auth/strategies');
@@ -33,37 +33,37 @@ app.use(
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use('/router', router);
-app.use('/slamCrownUsersRouter', slamCrownUsersRouter);
+app.use('/api/auth', router);
+app.use('/api/users', userRouter);
 // parse application/ jsonParser
 // POST- /api/users to create a new user, no auth needed
 // PUT - /api/users/:id to update, and change their email, and date of concussion 
 // DELETE - /api/users/:id delete id user, response that account is deleted
 
-app.post('/api/users', (req,res) => {
-  let document;
-  const requiredFields = [ 'emailAddress' , 'password', 'dateOfConcussion'];
-  for (let i=0; i<requiredFields.length; i++) {
-    const field = requiredFields[i];
-    if (!(field in req.body)) {
-      const message = `Missing \`${field}\` in request body`;
-      return res.status(400).send(message);
-    }
-  }
-  //THROWING TypeError: User.hashPassword is not a function, using bcrypt, changing it password.hashSync threw a reference error!
-  const user = {
-    emailAddress:req.body.emailAddress,
-    password:User(req.body.password),
-    dateOfConcussion:req.body.dateOfConcussion
-  }
-  return User.create(user)
-  .then(function(document){
-    res.status(201).json(document.serialize());
-  })
-  .catch(function(error) {
-    res.status(404).json({error:error});
-  })
-});
+// app.post('/api/users', (req,res) => {
+//   let document;
+//   const requiredFields = [ 'emailAddress' , 'password', 'dateOfConcussion'];
+//   for (let i=0; i<requiredFields.length; i++) {
+//     const field = requiredFields[i];
+//     if (!(field in req.body)) {
+//       const message = `Missing \`${field}\` in request body`;
+//       return res.status(400).send(message);
+//     }
+//   }
+//   //THROWING TypeError: User.hashPassword is not a function, using bcrypt, changing it password.hashSync threw a reference error!
+//   const user = {
+//     emailAddress:req.body.emailAddress,
+//     password:User(req.body.password),
+//     dateOfConcussion:req.body.dateOfConcussion
+//   }
+//   return User.create(user)
+//   .then(function(document){
+//     res.status(201).json(document.serialize());
+//   })
+//   .catch(function(error) {
+//     res.status(404).json({error:error});
+//   })
+// });
 // app.post('/api/test/:id', (req, res) => {
   //     console.log(req.body, req.params);
   //     res.json({body:res.body, params: res.params, query: req.query});
