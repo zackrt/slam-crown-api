@@ -22,9 +22,6 @@ userSchema.methods.serialize = function() {
   userSchema.statics.hashPassword = function (password) {
     return bcrypt.hashSync(password, 10);
   };
-
-
-
   // note that all instance methods and virtual properties on our
   // schema must be defined *before* we make the call to `.model`.
   const User = mongoose.model('User', userSchema);

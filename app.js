@@ -39,7 +39,6 @@ app.use('/api/users', userRouter);
 // POST- /api/users to create a new user, no auth needed
 // PUT - /api/users/:id to update, and change their email, and date of concussion 
 // DELETE - /api/users/:id delete id user, response that account is deleted
-
 // app.post('/api/users', (req,res) => {
 //   let document;
 //   const requiredFields = [ 'emailAddress' , 'password', 'dateOfConcussion'];
@@ -72,7 +71,6 @@ app.use('/api/users', userRouter);
   //     //   req.body -used in postman or submitted in form data, passing in emailAddress and password
   //     //   req.params - endpoint related, every :id object of that specific id would be req.params
   //     //   req.query - query string usually used in get request. ?x=1&y=2 can be add to the end of url, the left of equals is the keys, right is the values, they are split by the &
-  
   // })
   app.post('/api/login', function (req, res, next) {
     passport.authenticate('local', {session: false}, (err, user, info) => {
