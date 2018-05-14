@@ -21,7 +21,6 @@ needs router.post for EmailAddress, hashed password, and date of concussion
         return res.status(400).send(message);
       }
     }
-    console.log(req.body);
     return User.create({
       emailAddress: req.body.emailAddress,
       password: req.body.password,

@@ -9,24 +9,26 @@ chai.use(chaiHttp);
 
 // POST test to /api/users
 describe('API POST TEST in APP', function() {
-    before(function() {
+    beforeEach(function() {
       // runs before each test in this block
       return runServer(DATABASE_URL);
     });
   
-    after(function() {
+    afterEach(function() {
       // runs after each test in this block
       return closeServer();
     });
   
     // test cases
 describe('/api/users POST endpoint', function createNewUser() {
+  let res;
   const newUser = {
     emailAddress:'new@email.com',
     dateOfConcussion:'05-05-2018',
     password:'abcdefg'
   };
   it('should respond with 201, create a new user, emailAddress:new@email.com and redirect on post', function(done) {
+    console.log(res, 'This is the res');
     return chai.request(app)
     .post('/api/users')
     .send(newUser)

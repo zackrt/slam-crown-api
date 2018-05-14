@@ -41,9 +41,7 @@ app.use('/api/userpage', userPage);
 // POST- /api/users to create a new user, no auth needed
 // PUT - /api/users/:id to update, and change their email, and date of concussion 
 // DELETE - /api/users/:id delete id user, response that account is deleted
-
-  let server;
-  
+  let server; 
   // this function starts our server and returns a Promise.
   // In our test code, we need a way of asynchronously starting
   // our server, since we'll be dealing with promises there.
@@ -80,12 +78,9 @@ function closeServer() {
     });
   });
 }
-// if app.js is called directly (aka, with `node server.js`), this block
+// if app.js is called directly (aka, with `node app.js`), this block
 // runs. but we also export the runServer command so other code (for instance, test code) can start the server as needed.
 if (require.main === module) {
   runServer().catch(err => console.error(err));
 };
-
-//app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
-
 module.exports = {app, runServer, closeServer};
