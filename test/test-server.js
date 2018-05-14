@@ -26,14 +26,13 @@ describe('/api/users POST endpoint', function createNewUser() {
     dateOfConcussion:'05-05-2018',
     password:'abcdefg'
   };
-  it('should respond with 201, create a new user and redirect on post', function(done) {
+  it('should respond with 201, create a new user, emailAddress:new@email.com and redirect on post', function(done) {
     return chai.request(app)
     .post('/api/users')
     .send(newUser)
     .then(function(res){
-      console.log('res', res);
-      expect(res).to.have.status(201);
-      expect(res).to.be.json;
+      res.should.have.status(201);
+      res.should.be.json;
       done();
     }); 
   });

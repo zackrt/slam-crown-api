@@ -13,13 +13,11 @@ needs router.post for EmailAddress, hashed password, and date of concussion
  router.post('/', function(req, res) {
    let user;
    let {password, emailAddress, dateOfConcussion} = req.body;
- 
   const requiredFields = [ 'password', 'emailAddress', 'dateOfConcussion' ];
     for (let i=0; i<requiredFields.length; i++) {
       const field = requiredFields[i];
       if (!(field in req.body)) {
         const message = `Missing \`${field}\` in request body`
-      
         return res.status(400).send(message);
       }
     }
@@ -30,14 +28,12 @@ needs router.post for EmailAddress, hashed password, and date of concussion
       dateOfConcussion: req.body.dateOfConcussion
       })
       .then(user => {
-        console.log('HI');
         return res
           .status(201)
           .send(`Slam Crown User \`${user}\`Created`)
           .json({user:user.serialize()});
       })
       .catch(err => {
-          console.log('catch');
             res.json({err});
       });
   })
