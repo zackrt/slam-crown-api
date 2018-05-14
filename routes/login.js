@@ -6,18 +6,23 @@ router.get('/', function(req, res, next) {
   res.render('login', { title: 'Slam Crown Login page' })
     .status(200);
 });
-router.post('/', (req, res) => {
-  let {password, emailAddress} = req.body;
-  const requiredFields = [ 'password', 'emailAddress' ];
-  const missingField = requiredFields.find(field => !(field in req.body));
-  if (missingField) {
-    console.log('missing entity field');
-    return res.status(422).json({
-      code: 422,
-      reason: 'ValidationError',
-      message: 'Missing field',
-      location: missingField
+router.post('/api/login', function (req, res, next) {
+  passport.authenticate('local', {session: false}, (err, user, info) => {
+    if (err || !user) {
+      console.log(err);
+      return res.status(400).json({
+        message: 'Something is not right',
+        user   : user
+      });
+    }
+    req.login(user, {session: false}, (err) => {
+      if (err) {
+        res.send(err);
+      }
+      // generate a signed json web token with the contents of user object and return it in the response
+      const token = jwt.sign({user}, 'your_jwt_secret');
+      return res.json({user, token});
     });
-  }
+  })(req, res, next);
 });
 module.exports = router;

@@ -11,6 +11,7 @@ router.get('/', function(req, res, next) {
 needs router.post for EmailAddress, hashed password, and date of concussion 
  create a new user*/
  router.post('/', function(req, res) {
+   let user;
    let {password, emailAddress, dateOfConcussion} = req.body;
  
   const requiredFields = [ 'password', 'emailAddress', 'dateOfConcussion' ];

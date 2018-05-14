@@ -9,7 +9,7 @@ const cors = require('cors');
 const User = require('./models/SlamCrownUsers');
 const router = require('./routes/login');
 const userRouter = require('./routes/sign-up');
-const userPage = require('/routes/userpage');
+const userPage = require('./routes/userpage');
 const { DATABASE_URL, PORT, CLIENT_ORIGIN } = require ('./config');
 const jwt = require('jsonwebtoken');
 const { localStrategy, jwtStrategy } = require('./auth/strategies');
@@ -41,59 +41,7 @@ app.use('/api/userpage', userPage);
 // POST- /api/users to create a new user, no auth needed
 // PUT - /api/users/:id to update, and change their email, and date of concussion 
 // DELETE - /api/users/:id delete id user, response that account is deleted
-// app.post('/api/users', (req,res) => {
-//   let document;
-//   const requiredFields = [ 'emailAddress' , 'password', 'dateOfConcussion'];
-//   for (let i=0; i<requiredFields.length; i++) {
-//     const field = requiredFields[i];
-//     if (!(field in req.body)) {
-//       const message = `Missing \`${field}\` in request body`;
-//       return res.status(400).send(message);
-//     }
-//   }
-//   //THROWING TypeError: User.hashPassword is not a function, using bcrypt, changing it password.hashSync threw a reference error!
-//   const user = {
-//     emailAddress:req.body.emailAddress,
-//     password:User(req.body.password),
-//     dateOfConcussion:req.body.dateOfConcussion
-//   }
-//   return User.create(user)
-//   .then(function(document){
-//     res.status(201).json(document.serialize());
-//   })
-//   .catch(function(error) {
-//     res.status(404).json({error:error});
-//   })
-// });
-// app.post('/api/test/:id', (req, res) => {
-  //     console.log(req.body, req.params);
-  //     res.json({body:res.body, params: res.params, query: req.query});
-  
-  //     // 3 things from req.  
-  //     //   req.body -used in postman or submitted in form data, passing in emailAddress and password
-  //     //   req.params - endpoint related, every :id object of that specific id would be req.params
-  //     //   req.query - query string usually used in get request. ?x=1&y=2 can be add to the end of url, the left of equals is the keys, right is the values, they are split by the &
-  // })
-  app.post('/api/login', function (req, res, next) {
-    passport.authenticate('local', {session: false}, (err, user, info) => {
-      if (err || !user) {
-        console.log(err);
-        return res.status(400).json({
-          message: 'Something is not right',
-          user   : user
-        });
-      }
-      req.login(user, {session: false}, (err) => {
-        if (err) {
-          res.send(err);
-        }
-        // generate a signed json web token with the contents of user object and return it in the response
-        const token = jwt.sign({user}, 'your_jwt_secret');
-        return res.json({user, token});
-      });
-    })(req, res, next);
-  });
-  
+
   let server;
   
   // this function starts our server and returns a Promise.
@@ -138,6 +86,6 @@ if (require.main === module) {
   runServer().catch(err => console.error(err));
 };
 
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+//app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 module.exports = {app, runServer, closeServer};
