@@ -8,7 +8,7 @@ const jwtAuth = passport.authenticate('jwt', { session: false });
 console.log(jwtAuth,"jwt");
 router.get('/', jwtAuth,(req, res) => {
   let user;
-   console.log('GET THE USER DATA AND SEND IT TO THE PAGE',req.query)
+   console.log(req.query);
    try {
         User.findOne({EmailAddress: req.query.EmailAddress}).then(user => {
             res.json({user:user.serialize()})

@@ -9,6 +9,7 @@ const cors = require('cors');
 const User = require('./models/SlamCrownUsers');
 const router = require('./routes/login');
 const userRouter = require('./routes/sign-up');
+const userPage = require('/routes/userpage');
 const { DATABASE_URL, PORT, CLIENT_ORIGIN } = require ('./config');
 const jwt = require('jsonwebtoken');
 const { localStrategy, jwtStrategy } = require('./auth/strategies');
@@ -35,6 +36,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/api/auth', router);
 app.use('/api/users', userRouter);
+app.use('/api/userpage', userPage);
 // parse application/ jsonParser
 // POST- /api/users to create a new user, no auth needed
 // PUT - /api/users/:id to update, and change their email, and date of concussion 
