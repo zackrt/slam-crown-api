@@ -1,43 +1,50 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const { app, runServer, closeServer } = require('../app');
-const router = require ('../routes/sign-up')
 const request = require('chai').request;
-const { DATABASE_URL } = require('../config');
+const { TEST_DATABASE_URL } = require('../config');
 const expect = require('chai').expect;
 chai.use(chaiHttp);
-
-
+// beforeeach seed data, afterEach for dropdatabse to have clean data, and 
+// before : connecting to database, after closing the server
 // POST test to /api/users
 describe('API POST TEST in APP', function() {
-    beforeEach(function() {
-      // runs before each test in this block
-      return runServer(DATABASE_URL);
-    });
-  
-    afterEach(function() {
-      // runs after each test in this block
-      return closeServer();
-    });
-  
-    // test cases, need to fix respond 
-describe('/api/users POST endpoint', function createNewUser() {
-  let res;
   const newUser = {
     emailAddress:'new@email.com',
     dateOfConcussion:'05-05-2018',
     password:'abcdefg'
   };
+    before(function() {
+    // runs before each test in this block
+      return runServer(TEST_DATABASE_URL);
+    });
+  
+    after(function() {
+      // runs after each test in this block
+      return closeServer();
+    });
+    // test cases, need to fix respond 
+describe('/api/users GET endpoint', function getUsers() {
+  it('should list slamcrown users on GET', function() {
+    return chai.request(app)
+      .get('/api/users')
+      .then(function(res) {
+        console.log(res.body);
+        expect(res).to.have.status(200);
+      });
+  });     
+});    
+describe('/api/users POST endpoint', function createNewUser() {
   it('should respond with 201, create a new user, emailAddress:new@email.com and redirect on post', function(done) {
-    console.log(res, 'This is the res');
-    return chai.request(router)
-    .post('/routes/sign-up/api/users')
+    return chai.request(app)
+    .post('/api/users')
     .send(newUser)
     .then(function(res){
+     //console.log(res, 'This is the res');
       expect(res).to.have.status(201);
-      expect(res).to.be.json;
-      done();
-    }); 
+      // expect(res).to.be.json;
+    })
+    .then(() => done(), done);
   });
 });
 // describe('login POST endpoint', function() {
