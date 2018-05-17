@@ -1,22 +1,54 @@
+const mongoose = require('mongoose');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const { app, runServer, closeServer } = require('../app');
 const request = require('chai').request;
 const { TEST_DATABASE_URL } = require('../config');
 const expect = require('chai').expect;
+const { User } = require('../models/SlamCrownUsers')
 chai.use(chaiHttp);
 // beforeeach seed data, afterEach for dropdatabse to have clean data, and 
 // before : connecting to database, after closing the server
 // POST test to /api/users
+const newUser = {
+  emailAddress:'new@email.com',
+  dateOfConcussion:'05-05-2018',
+  password:'abcdefg'
+};
+function generateUserData() {
+const newUser = {
+  emailAddress:'new@email.com',
+  dateOfConcussion:'05-05-2018',
+  password:'abcdefg'
+};
+return newUser;
+}
+function seedUserData() {
+  console.info('seeding slam crown user data');
+  const seedData = [];
+
+  for (let i=1; i<=10; i++) {
+    seedData.push(generateUserData());
+  }
+  // this will return a promise
+  return User.insertMany(seedData);
+}
+
+function tearDownDb() {
+  console.warn('Deleting database');
+  return mongoose.connection.dropDatabase();
+}
 describe('API POST TEST in APP', function() {
-  const newUser = {
-    emailAddress:'new@email.com',
-    dateOfConcussion:'05-05-2018',
-    password:'abcdefg'
-  };
     before(function() {
     // runs before each test in this block
       return runServer(TEST_DATABASE_URL);
+    });
+    beforeEach(function() {
+      return seedUserData();
+    });
+  
+    afterEach(function() {
+      return tearDownDb();
     });
   
     after(function() {
