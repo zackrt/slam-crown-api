@@ -66,8 +66,10 @@ describe('/api/users GET endpoint', function getUsers() {
       });
   });     
 });    
+//async and await 
+//promise 
 describe('/api/users POST endpoint', function createNewUser() {
-  it('should respond with 201, create a new user, emailAddress:new@email.com and redirect on post', function(done) {
+  it('should respond with 201, create a new user, emailAddress:new@email.com and redirect on post', function() {
     return chai.request(app)
     .post('/api/users')
     .send(newUser)
@@ -76,9 +78,18 @@ describe('/api/users POST endpoint', function createNewUser() {
       expect(res).to.have.status(201);
       // expect(res).to.be.json;
     })
-    .then(() => done(), done);
+    // .then(() => done(), done);
   });
 });
+describe('/api/auth GET endpoint', function() {
+it('should respond with a 200 status, and return Welcome to Login message', function() {
+    return chai.request(app)
+      .get('/api/auth')
+      .then(function (res) {
+        expect(res).to.have.status(200);
+      });
+    });
+  });
 // describe('login POST endpoint', function() {
 //   const newUser = {
 //     EmailAddress:'new@email.com',

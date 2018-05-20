@@ -25,7 +25,7 @@ const { localStrategy, jwtStrategy } = require('./auth/strategies');
 //         dispatch(fetchUserProfileSuccess(userProfile));
 //     }).catch(err => dispatch(fetchUserProfileError(err)));
 // };
-passport.use(localStrategy);
+passport.use(localStrategy, );
 app.use(
   cors({
     origin: CLIENT_ORIGIN

@@ -2,14 +2,15 @@ var express = require('express');
 var router = express.Router();
 const { User } = require('../models/SlamCrownUsers');
 const passport = require('passport');
+
 router.get('/', function(req, res, next) {
-  res.render('login', { title: 'Slam Crown Login page' })
-    .status(200);
+  res.status(200)
+  .send('Welcome to the Slam Crown Login page');
 });
-router.post('/api/login', function (req, res, next) {
+router.post('/', function (req, res, next) {
   passport.authenticate('local', {session: false}, (err, user, info) => {
     if (err || !user) {
-      console.log(err);
+      console.log(err, res);
       return res.status(400).json({
         message: 'Something is not right',
         user   : user
@@ -17,6 +18,7 @@ router.post('/api/login', function (req, res, next) {
     }
     req.login(user, {session: false}, (err) => {
       if (err) {
+        console.log(res);
         res.send(err);
       }
       // generate a signed json web token with the contents of user object and return it in the response

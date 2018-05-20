@@ -3,8 +3,7 @@ var router = express.Router();
 const { User } = require('../models/SlamCrownUsers');
 /* GET users listing. to render the page */
 router.get('/', function(req, res, next) {
-  res
-  .status(200)
+  res.status(200)
   .send('welcome to the Slam Crown Sign-up page');
 });
 /* 
@@ -27,7 +26,6 @@ needs router.post for EmailAddress, hashed password, and date of concussion
       dateOfConcussion: req.body.dateOfConcussion
       })
       .then(user => {
-        //console.log(res, 'res in sign-up.js');
         return res
           .status(201)
           //.send(`Slam Crown User \`${user}\`Created`)
