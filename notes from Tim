@@ -9,17 +9,20 @@ the flow becomes:
         /login
         /signup
         /         (root)   `GET /`
-JS: language
-Node: JS runtime
-Express: framework that processes http requests (req <=> res)
+JavaScript: language
+NodeJS: JS runtime
+ExpressJS : framework that processes http requests (req <=> res)
 Passport: framework for authentication
     - passport has many "strategies"
-    - JWT, local, etc...
-Chai/Mocha: testing
-How does FE communciate with BE and diplay data?
-FE load some route => make request to BE => BE respond with data => FE renders it
-/login page => user fills out login form => user submit the form => send form data (container UserName and PWD) to BE => authenticated? (correct credentials?) => respond with token (good credentials) / respond error message (bad credentials)
-respond with token => persist the token in 'localStorage' (localStorage persist its content across sessions and routes within the same domain) => route the user to /userpage => userpage is set up so that it reads the token from the storage (if token doesn't exist, route to /login) => makes a `GET /userpage` to BE, this call contains the token in the header. ({ headers: { Authorization: 'JWT TOKEN_GOES_HEREA'}}) => server processes request, tries to authenticate => respond with userpage's content (good token) / respond error message (bad token)
+    - jwtStrategy, localStrategy, etc...
+Mocha/Chai/ChaiHTTP: testing
+How does FrontEnd communciate with BackEnd and display data?
+
+FrontEnd load some route => make request to BackEnd => BackEnd respond with data => FrontEnd renders it
+
+FrontEnd/login page => user fills out login (emailAddress & password) form => user submits the form => send form data (container emailAddress and password) to BackEnd => Authenticated? (correct credentials?) => respond with token (good credentials) / respond error message (bad credentials)
+
+respond with token => persist the token in 'localStorage' (localStorage persist it's content across sessions and routes within the same domain) => route or redirect the user to /userpage => userpage is set up so that it reads the token from the storage (if token doesn't exist, route to /login) => makes a `GET /userpage` to BE, this call contains the token in the header. ({ headers: { Authorization: 'JWT TOKEN_GOES_HERE'}}) => server processes request, tries to authenticate => respond with userpage's content (good token) / respond error message (bad token)
 How does passport work?
     - passport is for auth
     - passport is a middleware for express
