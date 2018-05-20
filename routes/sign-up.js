@@ -22,7 +22,7 @@ needs router.post for EmailAddress, hashed password, and date of concussion
     }
     return User.create({
       emailAddress: req.body.emailAddress,
-      password: req.body.password,
+      password: User.hashPassword(req.body.password),
       dateOfConcussion: req.body.dateOfConcussion
       })
       .then(user => {
