@@ -38,7 +38,7 @@ function tearDownDb() {
   console.warn('Deleting database');
   return mongoose.connection.dropDatabase();
 }
-describe('API POST TEST in APP', function() {
+describe('API POST TEST in APP.JS', function() {
     before(function() {
     // runs before each test in this block
       return runServer(TEST_DATABASE_URL);
@@ -66,8 +66,7 @@ describe('/api/users GET endpoint', function getUsers() {
       });
   });     
 });    
-//async and await 
-//promise 
+
 describe('/api/users POST endpoint', function createNewUser() {
   it('should respond with 201, create a new user, emailAddress:new@email.com and redirect on post', function() {
     return chai.request(app)
@@ -90,22 +89,4 @@ it('should respond with a 200 status, and return Welcome to Login message', func
       });
     });
   });
-// describe('login POST endpoint', function() {
-//   const newUser = {
-//     EmailAddress:'new@email.com',
-//     password:'abcd'
-//   };
-//   xit('should respond with 201 and redirect on post', function() {
-//     return chai.request(app)
-//     .post('/api/login')
-//     .send(newUser)
-//     .then(function(res) {({"EmailAddress":{"emailAddress":"new@email.com"}})
-//       .expect(201)
-//       .expect('Content-Type', /json/)
-//       .end(function(err, res) {
-//         if (err) done(err);
-//         res.body.should.have.property('emailAddress');
-//         res.body.emailAddress.should.have.property('emailAddress', 'new@email.com');
-//          });
-     //setTimeout(done, 300); 
 });

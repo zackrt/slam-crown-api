@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const { User } = require('../models/SlamCrownUsers');
 const passport = require('passport');
-var local = require('../auth/strategies');
+const { jwtStrategy, local } = ('../auth/strategies');
 
 router.get('/', function(req, res, next) {
   res.status(200)
