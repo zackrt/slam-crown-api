@@ -1,15 +1,13 @@
 'use strict';
 const mongoose = require ('mongoose');
 const { Strategy: LocalStrat } = require('passport-local');
-const passportJWT = require("passport-jwt");
+const passportJWT = require('passport-jwt');
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const { User } = require('../models/SlamCrownUsers');
 const { JWT_SECRET } = require('../config');
 
-
 const localStrategy = new LocalStrat({usernameField: 'emailAddress', passwordField: 'password'}, (emailAddress, password, callback) => {
-    console.log(emailAddress, password, callback);
     User.findOne({ emailAddress: emailAddress })
         .then(user => {
             console.log(user);

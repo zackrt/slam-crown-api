@@ -76,17 +76,22 @@ describe('/api/users POST endpoint', function createNewUser() {
      //console.log(res, 'This is the res');
       expect(res).to.have.status(201);
       // expect(res).to.be.json;
-    })
+    });
     // .then(() => done(), done);
   });
 });
-describe('/api/auth GET endpoint', function() {
-it('should respond with a 200 status, and return Welcome to Login message', function() {
+
+describe('/api/auth POST endpoint', function userLogin() {
+  it('should respond with 201, login a user and redirect on post', function() {
     return chai.request(app)
       .get('/api/auth')
-      .then(function (res) {
+      .then(function(res) {
+        console.log(res);
         expect(res).to.have.status(200);
+
       });
-    });
   });
+
+});
+
 });
