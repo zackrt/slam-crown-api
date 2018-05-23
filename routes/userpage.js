@@ -1,4 +1,4 @@
-/* GET SlamCrownUsers listing. */
+/* endpoint for SlamCrownUsers */
 var express = require('express');
 var router = express.Router();
 const { User } = require('../models/SlamCrownUsers');
@@ -6,26 +6,21 @@ const passport = require('passport');
 const jwtAuth = passport.authenticate('jwt', { session: false });
 /* need json or bodyparser? */
 console.log(jwtAuth,"jwt");
+
 router.get('/', jwtAuth,(req, res) => {
-  let user;
-   console.log(req.query);
-   try {
-        User.findOne({EmailAddress: req.query.EmailAddress}).then(user => {
-            res.json({user:user.serialize()})
-        })
-   } catch(err) {
-       res.json({err})
-   }
+    res.status(200)
+    .send('Welcome to the Slam Crown User Page');
 });
+
 router.post('/', jwtAuth,(req, res) => {
-  let user;
-  try {
-      User.create({EmailAddress: req.body.EmailAddress}).then(user => {
-          res.status(201).json({user:user.serialize()})
-    })
-  } catch(err) {
-      res.json({err})
-  }
+//   let user;
+//   try {
+//       User.create({EmailAddress: req.body.EmailAddress}).then(user => {
+//           res.status(201).json({user:user.serialize()})
+//     })
+//   } catch(err) {
+//       res.json({err})
+//   }
 });
 //delete SlamCrownUser account
 router.delete('/', jwtAuth, (req, res) => {

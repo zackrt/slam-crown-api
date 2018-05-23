@@ -8,9 +8,10 @@ const { User } = require('../models/SlamCrownUsers');
 const { JWT_SECRET } = require('../config');
 
 const localStrategy = new LocalStrat({usernameField: 'emailAddress', passwordField: 'password'}, (emailAddress, password, callback) => {
+    User.find().then(users => console.log(users));
     User.findOne({ emailAddress: emailAddress })
         .then(user => {
-            console.log(user);
+            //console.log(user);
             if (!user || !user.validatePassword(password)) {
         // Return a rejected promise so we break out of the chain of .thens.
         // Any errors like this will be handled in the catch block.

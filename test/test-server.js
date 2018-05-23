@@ -81,17 +81,56 @@ describe('/api/users POST endpoint', function createNewUser() {
   });
 });
 
-describe('/api/auth POST endpoint', function userLogin() {
-  it('should respond with 201, login a user and redirect on post', function() {
+describe('/api/auth GET endpoint', function userLogin() {
+  it('should respond with 200 status', function() {
     return chai.request(app)
       .get('/api/auth')
       .then(function(res) {
-        console.log(res);
+        console.log(res.body);
         expect(res).to.have.status(200);
 
       });
   });
-
 });
 
+describe('api/auth POST endpoint', function userLogin() {
+  it('should respond with a 201 status', function() {
+    return chai.request(app)
+      .post('/api/auth')
+      .send({
+        "emailAddress": "aa",
+        "password": "abcdef"
+      })
+      .then(function(res) {
+        //console.log(res.body);
+        expect(res).to.be.json;
+
+      });
+    });
+  });
+describe('/api/userpage Get endpoint', function userLogin(){
+  it('should respond with a 201 status', function() {
+    return chai.request(app)
+      .get('/api/auth')
+      .then(function(res) {
+        
+        expect(res).to.have.status(200);
+      });
+  });
+});
+describe('api/userpage POST endpoint', function userLogin() {
+  it('should respond with a json', function() {
+    return chai.request(app)
+      .post('/api/userpage')
+      .send({
+        "emailAddress": "aa",
+        "password": "abcdef"
+      })
+      .then(function(res) {
+        console.log(res.body);
+        expect(res).to.be.json;
+
+      });
+  });
+});
 });
