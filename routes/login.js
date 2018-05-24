@@ -10,11 +10,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  passport.authenticate('local', function(err, user, info) {
-    if (err) { return res.status(400).json(err); }
-    if (!user) { return res.status(400).json(err)}
-    res.json({token: 'fake token'});
-  })(req, res, next);
+  // passport.authenticate('local', function(err, user, info) {
+  //   if (err) { return res.status(400).json(err); }
+  //   if (!user) { return res.status(400).json(err)}
+  //   res.json({token: 'fake token'});
+  // })(req, res, next);
+  res.json({token: 'fake token'});
 });
 
 module.exports = router;

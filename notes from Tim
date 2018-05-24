@@ -91,3 +91,15 @@ How do we set up passport?
                 })
             }
         )
+need to dynamically generate new user email
+
+how to chain chai request together
+
+5/23/18 To do before Saturday's session:
+
+1.  Get the login to request to respond with a token jwt
+
+2.  users model json serialize returned to user to view
+
+3.  populate in React 
+

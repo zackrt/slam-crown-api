@@ -15,20 +15,13 @@ const newUser = {
   dateOfConcussion:'05-05-2018',
   password:'abcdefg'
 };
-function generateUserData() {
-const newUser = {
-  emailAddress:'new@email.com',
-  dateOfConcussion:'05-05-2018',
-  password:'abcdefg'
-};
-return newUser;
-}
+
 function seedUserData() {
   console.info('seeding slam crown user data');
   const seedData = [];
 
   for (let i=1; i<=10; i++) {
-    seedData.push(generateUserData());
+    seedData.push(newUser);
   }
   // this will return a promise
   return User.insertMany(seedData);
@@ -127,10 +120,42 @@ describe('api/userpage POST endpoint', function userLogin() {
         "password": "abcdef"
       })
       .then(function(res) {
-        console.log(res.body);
+        //console.log(res.body);
         expect(res).to.be.json;
 
       });
   });
+});
+describe('api/userpage GET endpoint', function userLogin() {
+    it('should respond with 401 status', function() {
+      return chai.request(app)
+      .get('/api/userpage')
+      .then(function(res) {
+          expect(res).to.have.status(401);
+      });
+    });
+    it('should respond with 200 status', function() {
+      return chai.request(app)
+      .post('/api/auth')
+      .send(newUser)
+      .then(function(res){
+        expect(res.body).to.not.be.null;
+        //console.log(res);
+        //need to get token and set the headers 
+        expect(res).to.have.status(200);
+        const token = res.body.token;
+        expect(token).to.not.be.null;
+        //console.log('this is the token', token);
+        return chai.request()
+          // setting the auth with the token returned from /login
+          .get('api/userpage')
+          //.set('Authorization', `Bearer ${token}`)
+          .then(function(res){
+            //console.log(res.body);
+            expect(res).to.have.status(200);
+
+          });
+      });
+    });
 });
 });

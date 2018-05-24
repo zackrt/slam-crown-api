@@ -13,6 +13,7 @@ router.get('/', jwtAuth,(req, res) => {
 });
 
 router.post('/', jwtAuth,(req, res) => {
+    res.status(201);
 //   let user;
 //   try {
 //       User.create({EmailAddress: req.body.EmailAddress}).then(user => {
