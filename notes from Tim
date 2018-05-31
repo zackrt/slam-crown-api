@@ -1,5 +1,5 @@
 you start with:
-express => routes => respond
+user request => express => routes => respond
 but if you want to protect some endpoints,
 the flow becomes:
 1) express => authenticated? => protected => respond

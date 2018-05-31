@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const { User } = require('../models/SlamCrownUsers');
 const passport = require('passport');
-const { jwtStrategy, local } = ('../auth/strategies');
+const { jwtStrategy, localStrategy, generateToken } = require('../auth/strategies');
 
 router.get('/', function(req, res, next) {
   res.status(200)
@@ -10,12 +10,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  // passport.authenticate('local', function(err, user, info) {
-  //   if (err) { return res.status(400).json(err); }
-  //   if (!user) { return res.status(400).json(err)}
-  //   res.json({token: 'fake token'});
-  // })(req, res, next);
-  res.json({token: 'fake token'});
+  passport.authenticate('local', function(err, user, info) {
+    console.log(err,user,info);
+    if (err) { return res.status(400).json(err); }
+    if (!user) { return res.status(400).json(err)}
+    res.status(200).json({token: generateToken(user)});
+  })(req, res, next);
 });
 
 module.exports = router;

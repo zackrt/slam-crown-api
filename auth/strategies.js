@@ -6,26 +6,44 @@ const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const { User } = require('../models/SlamCrownUsers');
 const { JWT_SECRET } = require('../config');
+const jwt = require('jsonwebtoken');
+//expecting request .user
+function generateToken(user) {
+    const jwtPayload = user.serialize();
 
-const localStrategy = new LocalStrat({usernameField: 'emailAddress', passwordField: 'password'}, (emailAddress, password, callback) => {
-    User.find().then(users => console.log(users));
+    const jwtData = {
+      expiresIn: config.JWT_EXPIRY,
+    };
+    const secret = config.JWT_SECRET;
+    return jwt.sign(jwtPayload, secret, jwtData);
+};
+
+const localStrategy = new LocalStrat(
+  {
+    usernameField: 'emailAddress',
+     passwordField: 'password'
+  },
+   (emailAddress, password, callback) => {
     User.findOne({ emailAddress: emailAddress })
         .then(user => {
             //console.log(user);
             if (!user || !user.validatePassword(password)) {
-        // Return a rejected promise so we break out of the chain of .thens.
-        // Any errors like this will be handled in the catch block.
+              // Return a rejected promise so we break out of the chain of .thens.
+              // Any errors like this will be handled in the catch block.
                 return callback({
                     reason: 'LoginError',
                     message: 'Incorrect email address or password'
                 });
             }
+            //user here is a mongoose document based on model
             callback(null, user);
         })
         .catch(err => {
             return callback(err);
         });
-});
+    }
+);
+
 const jwtStrategy = new JWTStrategy(
     {
       secretOrKey: JWT_SECRET,
@@ -38,4 +56,4 @@ const jwtStrategy = new JWTStrategy(
       done(null, payload.user);
     }
   );
-module.exports = { localStrategy, jwtStrategy };
+module.exports = { localStrategy, jwtStrategy, generateToken };
