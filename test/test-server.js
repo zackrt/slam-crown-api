@@ -112,16 +112,15 @@ describe('/api/userpage Get endpoint', function userLogin(){
   });
 });
 describe('api/userpage POST endpoint', function userLogin() {
-  it('should respond with a json', function() {
+  it('should respond with a 201', function() {
     return chai.request(app)
       .post('/api/userpage')
       .send({
-        "emailAddress": "aa",
-        "password": "abcdef"
+       newUser
       })
       .then(function(res) {
-        //console.log(res.body);
-        expect(res).to.be.json;
+        console.log(res.body);
+        expect(res).to.have.status(201);
 
       });
   });
@@ -131,9 +130,11 @@ describe('api/userpage GET endpoint', function userLogin() {
       return chai.request(app)
       .get('/api/userpage')
       .then(function(res) {
+          console.log(res.body);
           expect(res).to.have.status(401);
       });
     });
+    
     it('should respond with 200 status', function() {
       return chai.request(app)
       .post('/api/auth')
@@ -153,7 +154,6 @@ describe('api/userpage GET endpoint', function userLogin() {
           .then(function(res){
             //console.log(res.body);
             expect(res).to.have.status(200);
-
           });
       });
     });

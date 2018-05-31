@@ -6,22 +6,14 @@ const passport = require('passport');
 const jwtAuth = passport.authenticate('jwt', { session: false });
 /* need json or bodyparser? */
 console.log(jwtAuth,"jwt");
-
+//take the user's inputs "EmailAddress & hashed password, return their userpage"
 router.get('/', jwtAuth,(req, res) => {
     res.status(200)
     .send('Welcome to the Slam Crown User Page');
 });
 
 router.post('/', jwtAuth,(req, res) => {
-    res.status(201);
-//   let user;
-//   try {
-//       User.create({EmailAddress: req.body.EmailAddress}).then(user => {
-//           res.status(201).json({user:user.serialize()})
-//     })
-//   } catch(err) {
-//       res.json({err})
-//   }
+    res.status(201).json({});
 });
 //delete SlamCrownUser account
 router.delete('/', jwtAuth, (req, res) => {
