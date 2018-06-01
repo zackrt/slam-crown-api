@@ -6,7 +6,7 @@ const passport = require('passport');
 const jwtAuth = passport.authenticate('jwt', { session: false });
 /* need json or bodyparser? */
 console.log(jwtAuth,"jwt");
-//take the user's inputs "EmailAddress & hashed password, return their userpage"
+//take the user's inputs "EmailAddress & hashed password, return/render their userpage"
 router.get('/', jwtAuth,(req, res) => {
     res.status(200)
     .send('Welcome to the Slam Crown User Page');

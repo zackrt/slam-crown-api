@@ -27,11 +27,7 @@ const { localStrategy, jwtStrategy } = require('./auth/strategies');
 // };
 passport.use(localStrategy);
 passport.use(jwtStrategy);
-app.use(
-  cors({
-    origin: CLIENT_ORIGIN
-  })
-);
+app.use(cors());
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

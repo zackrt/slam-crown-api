@@ -5,7 +5,7 @@ const passportJWT = require('passport-jwt');
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const { User } = require('../models/SlamCrownUsers');
-const { JWT_SECRET } = require('../config');
+const config = require('../config');
 const jwt = require('jsonwebtoken');
 //expecting request .user
 function generateToken(user) {
@@ -46,7 +46,7 @@ const localStrategy = new LocalStrat(
 
 const jwtStrategy = new JWTStrategy(
     {
-      secretOrKey: JWT_SECRET,
+      secretOrKey: config.JWT_SECRET,
       // Look for the JWT as a Bearer auth header
       jwtFromRequest: ExtractJWT.fromAuthHeaderWithScheme('Bearer'),
       // Only allow HS256 tokens - the same as the ones we issue
