@@ -8,14 +8,14 @@ const jwtAuth = passport.authenticate('jwt', { session: false });
 console.log(jwtAuth,"jwt");
 //take the user's inputs "EmailAddress & hashed password, return/render their userpage"
 router.get('/', jwtAuth,(req, res, next) => {
-    const id = req.body.EmailAddress;
-    User.find(id)
-    .then(user =>{
-    res.status(200)
-    .send('Welcome to the Slam Crown User Page');
-    }).catch(
-     res.sendStatus(401)
-    )
+    const id = req.user.EmailAddress;
+        User.find(id)
+        .then(user =>{
+        res.status(200)
+        .send('Welcome to the Slam Crown User Page');
+        }).catch(
+        res.sendStatus(401)
+        )
 });
 
 // NOT USED router.post('/', jwtAuth,(req, res) => {

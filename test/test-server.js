@@ -15,18 +15,14 @@ const newUser = {
   dateOfConcussion:'05-05-2018',
   password:'abcdefg'
 };
-
+// api/users = sign-up, api/auth = login, api/userspage = userpage w/ jwt
 function seedUserData() {
-  console.info('seeding slam crown user data');
-  const seedData = [];
-
-  for (let i=1; i<=10; i++) {
-    seedData.push(newUser);
-  }
-  // this will return a promise
-  return User.insertMany(seedData);
+      return chai.request(app)
+      .post('/api/users')
+      .send(
+      newUser
+      )
 }
-
 function tearDownDb() {
   console.warn('Deleting database');
   return mongoose.connection.dropDatabase();
@@ -54,7 +50,7 @@ describe('/api/users GET endpoint', function getUsers() {
     return chai.request(app)
       .get('/api/users')
       .then(function(res) {
-        console.log(res.body);
+        //console.log(res.body);
         expect(res).to.have.status(200);
       });
   });     
@@ -79,47 +75,43 @@ describe('/api/auth GET endpoint', function userLogin() {
     return chai.request(app)
       .get('/api/auth')
       .then(function(res) {
-        console.log(res.body);
+        //console.log(res.body);
         expect(res).to.have.status(200);
 
       });
   });
 });
 
-describe('api/auth POST endpoint', function userLogin() {
-  it('should respond with a 201 status', function() {
+describe('api/auth POST endpoint', function() {
+  it('should respond with a 200 status', function() {
     return chai.request(app)
       .post('/api/auth')
-      .send({
-        "emailAddress": "aa",
-        "password": "abcdef"
-      })
+      .send(newUser)
       .then(function(res) {
         //console.log(res.body);
         expect(res).to.be.json;
-
+        expect(res).to.have.status(200);
       });
     });
   });
-describe('/api/userpage GET endpoint', function userLogin(){
-  it('GET should respond with a 201 status', function() {
+describe('/api/userpage GET to Login route endpoint', function(){
+  it('GET should respond with a 200 status', function() {
     return chai.request(app)
       .get('/api/auth')
       .then(function(res) {
-        
         expect(res).to.have.status(200);
       });
   });
 });
-// describe('api/userpage POST endpoint', function userLogin() {
-//   it('POST should respond with a 201', function() {
+// describe('api/userpage GET endpoint', function userLogin() {
+//   it('GET should respond with a 201', function() {
 //     return chai.request(app)
-//       .post('/api/userpage')
+//       .get('/api/userpage')
 //       .send({
 //        newUser
 //       })
 //       .then(function(res) {
-//         console.log(res.body);
+//        console.log("Object returned from userpage POST",res.body);
 //         expect(res).to.have.status(201);
 
 //       });
@@ -130,25 +122,25 @@ describe('api/userpage GET endpoint', function userLogin() {
       return chai.request(app)
       .get('/api/userpage')
       .then(function(res) {
-          console.log(res.body);
+         // console.log(res.body);
           expect(res).to.have.status(401);
       });
     });
-    
-    it('POST to api/auth Login.js, then GET to api/userpager should respond with 200 status', function() {
+
+    it('POST to /api/auth Login.js, then GET to /api/userpager should respond with 200 status', function() {
       return chai.request(app)
       .post('/api/auth')
       .send(newUser)
       .then(function(res){
-        console.log('THIS IS NEW USER',newUser);
+        console.log('THIS IS THE NEW USER',newUser);
         expect(res.body).to.not.be.null;
-        //console.log(res);
         //need to get token and set the headers 
         expect(res).to.have.status(200);
         const token = res.body.token;
         expect(token).to.not.be.null;
+        return token;
         //console.log('this is the token', token);
-        // return chai.request()
+        //  return chai.request(app)
         //   // setting the auth with the token returned from /login
         //   .get('api/userpage')
         //   //.set('Authorization', `Bearer ${token}`)
@@ -156,7 +148,12 @@ describe('api/userpage GET endpoint', function userLogin() {
         //     console.log('THIS IS THE RES.BODY',res.body);
         //     expect(res).to.have.status(200);
         //   });
-      });
+      })
+      .get(token => {
+        return `/api/userpage?token=${token}`
+      }).then(function(res){
+        expect(res).to.have.status(200);
+      })
     });
 });
 });

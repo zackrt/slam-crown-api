@@ -26,7 +26,7 @@ const localStrategy = new LocalStrat(
    (emailAddress, password, callback) => {
     User.findOne({ emailAddress: emailAddress })
         .then(user => {
-            //console.log(user);
+            console.log(user, "user in LocalStrategy");
             if (!user || !user.validatePassword(password)) {
               // Return a rejected promise so we break out of the chain of .thens.
               // Any errors like this will be handled in the catch block.
