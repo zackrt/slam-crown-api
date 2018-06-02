@@ -7,20 +7,27 @@ const jwtAuth = passport.authenticate('jwt', { session: false });
 /* need json or bodyparser? */
 console.log(jwtAuth,"jwt");
 //take the user's inputs "EmailAddress & hashed password, return/render their userpage"
-router.get('/', jwtAuth,(req, res) => {
+router.get('/', jwtAuth,(req, res, next) => {
+    const id = req.body.EmailAddress;
+    User.find(id)
+    .then(user =>{
     res.status(200)
     .send('Welcome to the Slam Crown User Page');
+    }).catch(
+     res.sendStatus(401)
+    )
 });
 
-router.post('/', jwtAuth,(req, res) => {
-    res.status(201).json({});
-});
+// NOT USED router.post('/', jwtAuth,(req, res) => {
+//     User.cr
+//     res.status(201).json({});
+// });
 //delete SlamCrownUser account
 router.delete('/', jwtAuth, (req, res) => {
     console.log('req in userpage.js router', req);
     try {
         User.deleteOne({EmailAddress: req.body.EmailAddress}).then(users => {
-        res.status(200).json({ message: "Your Slam Crown Account was deleted!" })
+        res.status(204);
     }) 
     } catch (e) {
         res.status(500).json({ message: 'Internal server error, account cannot deleted' });
