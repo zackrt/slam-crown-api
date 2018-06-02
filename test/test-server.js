@@ -44,13 +44,12 @@ describe('API POST TEST in APP.JS', function() {
       // runs after each test in this block
       return closeServer();
     });
-    // test cases, need to fix respond 
+
 describe('/api/users GET endpoint', function getUsers() {
   it('should list slamcrown users on GET', function() {
     return chai.request(app)
       .get('/api/users')
       .then(function(res) {
-        //console.log(res.body);
         expect(res).to.have.status(200);
       });
   });     
@@ -62,11 +61,9 @@ describe('/api/users POST endpoint', function createNewUser() {
     .post('/api/users')
     .send(newUser)
     .then(function(res){
-     //console.log(res, 'This is the res');
       expect(res).to.have.status(201);
-      // expect(res).to.be.json;
+      expect(res).to.be.json;
     });
-    // .then(() => done(), done);
   });
 });
 
@@ -75,20 +72,16 @@ describe('/api/auth GET endpoint', function userLogin() {
     return chai.request(app)
       .get('/api/auth')
       .then(function(res) {
-        //console.log(res.body);
         expect(res).to.have.status(200);
-
       });
   });
 });
-
 describe('api/auth POST endpoint', function() {
   it('should respond with a 200 status', function() {
     return chai.request(app)
       .post('/api/auth')
       .send(newUser)
       .then(function(res) {
-        //console.log(res.body);
         expect(res).to.be.json;
         expect(res).to.have.status(200);
       });
@@ -103,20 +96,7 @@ describe('/api/userpage GET to Login route endpoint', function(){
       });
   });
 });
-// describe('api/userpage GET endpoint', function userLogin() {
-//   it('GET should respond with a 201', function() {
-//     return chai.request(app)
-//       .get('/api/userpage')
-//       .send({
-//        newUser
-//       })
-//       .then(function(res) {
-//        console.log("Object returned from userpage POST",res.body);
-//         expect(res).to.have.status(201);
 
-//       });
-//   });
-// });
 describe('api/userpage GET endpoint', function userLogin() {
     it('GET should respond with 401 status', function() {
       return chai.request(app)
@@ -132,7 +112,7 @@ describe('api/userpage GET endpoint', function userLogin() {
       .post('/api/auth')
       .send(newUser)
       .then(function(res){
-        console.log('THIS IS THE NEW USER',newUser);
+        //console.log('THIS IS THE NEW USER',newUser);
         expect(res.body).to.not.be.null;
         //need to get token and set the headers 
         expect(res).to.have.status(200);
@@ -149,11 +129,11 @@ describe('api/userpage GET endpoint', function userLogin() {
         //     expect(res).to.have.status(200);
         //   });
       })
-      .get(token => {
-        return `/api/userpage?token=${token}`
-      }).then(function(res){
-        expect(res).to.have.status(200);
-      })
+      // .get(token => {
+      //   return `/api/userpage?token=${token}`
+      // }).then(function(res){
+      //   expect(res).to.have.status(200);
+      // })
     });
 });
 });

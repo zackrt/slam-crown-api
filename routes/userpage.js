@@ -17,14 +17,9 @@ router.get('/', jwtAuth,(req, res, next) => {
         res.sendStatus(401)
         )
 });
-
-// NOT USED router.post('/', jwtAuth,(req, res) => {
-//     User.cr
-//     res.status(201).json({});
-// });
-//delete SlamCrownUser account
+//delete user
 router.delete('/', jwtAuth, (req, res) => {
-    console.log('req in userpage.js router', req);
+    //console.log('req in userpage.js router', req);
     try {
         User.deleteOne({EmailAddress: req.body.EmailAddress}).then(users => {
         res.status(204);
