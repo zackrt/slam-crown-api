@@ -5,28 +5,32 @@ const { User } = require('../models/SlamCrownUsers');
 const passport = require('passport');
 const jwtAuth = passport.authenticate('jwt', { session: false });
 /* need json or bodyparser? */
-console.log(jwtAuth,"jwt");
+// console.log(jwtAuth,"jwt");
 //take the user's inputs "EmailAddress & hashed password, return/render their userpage"
-router.get('/', jwtAuth,(req, res, next) => {
-    const id = req.user.EmailAddress;
-        User.find(id)
+//passport.jwt
+router.get('/',jwtAuth, (req, res, next) => {
+    const id = req.user.emailAddress;
+        User.findById(id)
         .then(user =>{
-        res.status(200)
+            res.status(200)
         .send('Welcome to the Slam Crown User Page');
-        }).catch(
-        res.sendStatus(401)
-        )
+        }).catch(err => {
+            res.send(404).json(err)
+        })
 });
 //delete user
-router.delete('/', jwtAuth, (req, res) => {
+router.delete('/', jwtAuth, (req, res, next) => {
     //console.log('req in userpage.js router', req);
-    try {
-        User.deleteOne({EmailAddress: req.body.EmailAddress}).then(users => {
-        res.status(204);
-    }) 
-    } catch (e) {
-        res.status(500).json({ message: 'Internal server error, account cannot deleted' });
-    }
+   // can use sendStatus(204)
+    console.error.log(req.user, 'in delete endpoint')
+    User.deleteOne({EmailAddress: req.user.EmailAddress})
+        .then(users => {
+            console.log(res, 'in delete endpoint');
+            res.status(204);
+        })
+        .catch (
+            res.status(500).json({ message: 'Internal server error, account cannot deleted' })
+        )
 });
 //update account 
 router.put('/', jwtAuth,(req, res) =>{

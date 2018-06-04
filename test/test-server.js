@@ -118,22 +118,35 @@ describe('api/userpage GET endpoint', function userLogin() {
         expect(res).to.have.status(200);
         const token = res.body.token;
         expect(token).to.not.be.null;
-        return token;
-        //console.log('this is the token', token);
-        //  return chai.request(app)
-        //   // setting the auth with the token returned from /login
-        //   .get('api/userpage')
-        //   //.set('Authorization', `Bearer ${token}`)
-        //   .then(function(res){
-        //     console.log('THIS IS THE RES.BODY',res.body);
-        //     expect(res).to.have.status(200);
-        //   });
+        return chai.request(app)
+          .get('/api/userpage')
+          .set('Authorization','Bearer '+ token)
+            .then(res => {
+              console.log(res,'Get res')
+              expect(res).to.have.status(200)
+            })
       })
-      // .get(token => {
-      //   return `/api/userpage?token=${token}`
-      // }).then(function(res){
-      //   expect(res).to.have.status(200);
-      // })
     });
 });
+describe('api/userpage DELETE endpoint', function () {
+  it('should post to api/auth then api/userpage DELETE endpoint with a 200', function() {
+     return chai.request(app)
+      .post('/api/auth')
+      .send(newUser)
+      .then(function(res){
+        //console.log('THIS IS THE NEW USER',newUser);
+        expect(res.body).to.not.be.null;
+        //need to get token and set the headers 
+        expect(res).to.have.status(200);
+        const token = res.body.token;
+        expect(token).to.not.be.null;
+        return chai.request(app)
+          .delete('/api/userpage')
+          .set('Authorization','Bearer '+ token)
+            .then(res =>{
+              expect(res).to.have.status(204)
+            });
+      });
+  });
+})
 });

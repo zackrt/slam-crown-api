@@ -26,7 +26,10 @@ const localStrategy = new LocalStrat(
    (emailAddress, password, callback) => {
     User.findOne({ emailAddress: emailAddress })
         .then(user => {
+            console.log(user, 'STRAT USER');
+            console.log(user.validatePassword(password));
             if (!user || !user.validatePassword(password)) {
+
               // Return a rejected promise so we break out of the chain of .thens.
               // Any errors like this will be handled in the catch block.
                 return callback({
@@ -38,6 +41,7 @@ const localStrategy = new LocalStrat(
             callback(null, user);
         })
         .catch(err => {
+            console.log(err, 'ERROR IN STRAT')
             return callback(err);
         });
     }
@@ -47,11 +51,12 @@ const jwtStrategy = new JWTStrategy(
     {
       secretOrKey: config.JWT_SECRET,
       // Look for the JWT as a Bearer auth header
-      jwtFromRequest: ExtractJWT.fromAuthHeaderWithScheme('Bearer'),
+      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
       // Only allow HS256 tokens - the same as the ones we issue
       algorithms: ['HS256']
     },
     (payload, done) => {
+        console.log(payload,"THIS IS PAYLOAD");
       done(null, payload.user);
     }
   );
