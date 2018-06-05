@@ -128,6 +128,7 @@ describe('api/userpage GET endpoint', function userLogin() {
       })
     });
 });
+// getting a 401, need a 200 status
 describe('api/userpage DELETE endpoint', function () {
   it('should post to api/auth then api/userpage DELETE endpoint with a 200', function() {
      return chai.request(app)

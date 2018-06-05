@@ -5,7 +5,7 @@ const { User } = require('../models/SlamCrownUsers');
 const passport = require('passport');
 const jwtAuth = passport.authenticate('jwt', { session: false });
 /* need json or bodyparser? */
-// console.log(jwtAuth,"jwt");
+console.log(jwtAuth,"jwt");
 //take the user's inputs "EmailAddress & hashed password, return/render their userpage"
 //passport.jwt
 router.get('/',jwtAuth, (req, res, next) => {
