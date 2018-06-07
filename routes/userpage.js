@@ -3,19 +3,32 @@ var express = require('express');
 var router = express.Router();
 const { User } = require('../models/SlamCrownUsers');
 const passport = require('passport');
-const jwtAuth = passport.authenticate('jwt', { session: false });
+const jwt = require('express-jwt');
+const {JWT_SECRET} = require('../config');
+const jwtAuth = jwt({
+    secret:JWT_SECRET,
+    getToken: function fromHeaderOrQuerystring (req) {
+        if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+            console.log(req.headers.authorization.split(' '), "TOKEN");
+            return req.headers.authorization.split(' ')[1];
+        } else if (req.query && req.query.token) {
+          return req.query.token;
+        }
+        return null;
+      }
+});
 /* need json or bodyparser? */
 //console.log(jwtAuth,"jwt");
 //take the user's inputs "EmailAddress & hashed password, return/render their userpage"
 //passport.jwt
 router.get('/',jwtAuth, (req, res, next) => {
-    const id = req.user.emailAddress;
-        User.findById(id)
+    const emailAddress = req.user.emailAddress;
+        User.findOne({emailAddress})
         .then(user =>{
-            res.status(200)
-        .send('Welcome to the Slam Crown User Page');
+          return res.status(200)
+        .json(user.serialize());
         }).catch(err => {
-            res.send(404).json(err)
+          return res.status(404).json(err);
         })
 });
 //delete user

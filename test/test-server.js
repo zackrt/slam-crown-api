@@ -117,6 +117,7 @@ describe('api/userpage GET endpoint', function userLogin() {
         //need to get token and set the headers 
         expect(res).to.have.status(200);
         const token = res.body.token;
+        //we have the token now
         expect(token).to.not.be.null;
         return chai.request(app)
           .get('/api/userpage')
