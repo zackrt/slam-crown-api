@@ -146,6 +146,7 @@ describe('api/userpage DELETE endpoint', function () {
           .delete('/api/userpage')
           .set('Authorization','Bearer '+ token)
             .then(res =>{
+              console.log(res, "this is the delete res")
               expect(res).to.have.status(204)
             });
       });
