@@ -42,7 +42,7 @@ router.delete('/', jwtAuth, (req, res, next) => {
             res.status(204);
         })
         .catch (
-            res.status(500).json({ message: 'Internal server error, account cannot deleted' })
+            res.status(500).json({ message: 'Internal server error, account cannot be deleted' })
         )
 });
 
