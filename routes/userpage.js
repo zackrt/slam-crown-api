@@ -56,8 +56,8 @@ router.put('/', jwtAuth,(req, res) =>{
           req.body,
           {new: true},
         )
-        .then((error, doc) => {
-            if(error || !doc){
+        .then(( doc) => {
+            if(!doc){
                 return res.status(400).json({message:'cannot find user'})
             }
             return res.json(doc.serialize())
