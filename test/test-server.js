@@ -152,4 +152,27 @@ describe('api/userpage DELETE endpoint', function () {
       });
   });
 })
+describe('api/userpage PUT endpoint', function () {
+  it('should POST to api/auth then api/userpage PUT endpoint with a 200', function() {
+     return chai.request(app)
+      .post('/api/auth')
+      .send(newUser)
+      .then(function(res){
+        //console.log('THIS IS THE NEW USER',newUser);
+        expect(res.body).to.not.be.null;
+        //need to get token and set the headers 
+        expect(res).to.have.status(200);
+        const token = res.body.token;
+        expect(token).to.not.be.null;
+        return chai.request(app)
+          .put('/api/userpage')
+          .set('Authorization','Bearer '+ token)
+            .then(res =>{
+              console.log(res, "this is the PUT res")
+              expect(res).to.be.json;
+              expect(res).to.have.status(200);
+            });
+      });
+  });
+})
 });
