@@ -168,7 +168,7 @@ describe('api/userpage PUT endpoint', function () {
           .put('/api/userpage')
           .set('Authorization','Bearer '+ token)
             .then(res =>{
-              console.log(res, "this is the PUT res")
+              //console.log(res, "this is the PUT res")
               expect(res).to.be.json;
               expect(res).to.have.status(200);
             });

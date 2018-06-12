@@ -32,10 +32,9 @@ router.get('/',jwtAuth, (req, res, next) => {
         })
 });
 //delete user
-router.delete('/', jwtAuth, (req, res, next) => {
+router.delete('/',jwtAuth, (req, res, next) => {
     //console.log('req in userpage.js router', req);
-   // can use sendStatus(204)
-    console.error.log(req.user, 'in delete endpoint')
+    console.log(req.user, 'in delete endpoint')
     User.deleteOne({emailAddress: req.user.emailAddress})
         .then(users => {
             console.log(res, 'in delete endpoint');
@@ -47,7 +46,7 @@ router.delete('/', jwtAuth, (req, res, next) => {
 });
 
 //update account 
-//make sure i can make a postman call, pass in auth, body, and updating database, and make sure it works with axios.put, 
+//make sure i can make a postman call V, pass in auth, body, and updating database, and make sure it works with axios.put, 
 
 router.put('/', jwtAuth,(req, res) =>{
         console.log(res.user);
