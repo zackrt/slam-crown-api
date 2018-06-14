@@ -40,7 +40,7 @@ router.delete('/',jwtAuth, (req, res, next) => {
             //console.log(res, 'in delete endpoint');
            return res.status(204).json({'No Content'});
         })
-        .catch (error => {
+        .catch(error => {
             console.log(error, "error in delete endpoint")
            return res.status(500).json({ message: 'Internal server error, account cannot be deleted' })
         })
