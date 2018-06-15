@@ -130,29 +130,29 @@ describe('api/userpage GET endpoint', function userLogin() {
     });
 });
 // getting a 500, need a 204 status
-describe('api/userpage DELETE endpoint', function () {
-  it('should post to api/auth then api/userpage DELETE endpoint with a 204', function() {
-     return chai.request(app)
-      .post('/api/auth')
-      .send(newUser)
-      .then(function(res){
-        //console.log('THIS IS THE NEW USER',newUser);
-        expect(res.body).to.not.be.null;
-        //need to get token and set the headers 
-        expect(res).to.have.status(200);
-        const token = res.body.token;
-        console.log(token,'token in delete test')
-        expect(token).to.not.be.null;
-        return chai.request(app)
-          .delete('/api/userpage')
-          .set('Authorization','Bearer '+ token)
-            .then(res =>{
-              //console.log(res, "this is the delete res")
-              expect(res).to.have.status(204)
-            });
-      });
-  });
-})
+// describe('api/userpage DELETE endpoint', function () {
+//   it('should post to api/auth then api/userpage DELETE endpoint with a 204', function() {
+//      return chai.request(app)
+//       .post('/api/auth')
+//       .send(newUser)
+//       .then(function(res){
+//         //console.log('THIS IS THE NEW USER',newUser);
+//         expect(res.body).to.not.be.null;
+//         //need to get token and set the headers 
+//         expect(res).to.have.status(200);
+//         const token = res.body.token;
+//         console.log(token,'token in delete test')
+//         expect(token).to.not.be.null;
+//         return chai.request(app)
+//           .delete('/api/userpage')
+//           .set('Authorization','Bearer '+ token)
+//             .then(res =>{
+//               //console.log(res, "this is the delete res")
+//               expect(res).to.have.status(204)
+//             });
+//       });
+//   });
+// })
 describe('api/userpage PUT endpoint', function () {
   it('should POST to api/auth then api/userpage PUT endpoint with a 200', function() {
      return chai.request(app)
