@@ -5,13 +5,19 @@ const bcrypt = require ('bcryptjs');
 const userSchema = new mongoose.Schema({
   emailAddress: {type: String, required: true},
   password: {type: String, required: true},
-  dateOfConcussion: {type: Date, required:true}
+  dateOfConcussion: {type: Date, required:true},
+  painLevel: {type: Number},
+  othersymptom: {type: String},
+  selectedSymptoms: {type: String}
 });
 userSchema.methods.serialize = function() {
     return {
       id: this._id,
       emailAddress: this.emailAddress,
-      dateOfConcussion: this.dateOfConcussion
+      dateOfConcussion: this.dateOfConcussion,
+      painLevel: this.painLevel,
+      othersymptom: this.othersymptom,
+      selectedSymptoms: this.selectedSymptoms
     };
   }
 // bcrpyt password hashing cipher: encryption  

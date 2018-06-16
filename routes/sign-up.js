@@ -12,7 +12,7 @@ needs router.post for EmailAddress, hashed password, and date of concussion
  router.post('/', function(req, res) {
    let user;
    let {password, emailAddress, dateOfConcussion} = req.body;
-  const requiredFields = [ 'password', 'emailAddress', 'dateOfConcussion' ];
+  const requiredFields = [ 'password', 'emailAddress', 'dateOfConcussion'];
     for (let i=0; i<requiredFields.length; i++) {
       const field = requiredFields[i];
       if (!(field in req.body)) {
