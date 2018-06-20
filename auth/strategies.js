@@ -7,10 +7,9 @@ const ExtractJWT = passportJWT.ExtractJwt;
 const { User } = require('../models/SlamCrownUsers');
 const config = require('../config');
 const jwt = require('jsonwebtoken');
-//expecting request .user
+//expecting request user
 function generateToken(user) {
     const jwtPayload = user.serialize();
-
     const jwtData = {
       expiresIn: config.JWT_EXPIRY,
     };
@@ -26,10 +25,7 @@ const localStrategy = new LocalStrat(
    (emailAddress, password, callback) => {
     User.findOne({ emailAddress: emailAddress })
         .then(user => {
-            //console.log(user, 'STRAT USER');
-            //console.log(user.validatePassword(password));
             if (!user || !user.validatePassword(password)) {
-
               // Return a rejected promise so we break out of the chain of .thens.
               // Any errors like this will be handled in the catch block.
                 return callback({
