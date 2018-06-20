@@ -18,7 +18,6 @@ const jwtAuth = jwt({
       }
 });
 /* retrieve user's past responses and return in table format */
-
 router.get('/', jwtAuth, function (req, res) {
     return res
         .status(200)

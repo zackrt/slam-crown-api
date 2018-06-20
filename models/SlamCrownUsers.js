@@ -23,8 +23,7 @@ userSchema.methods.serialize = function() {
 // bcrpyt password hashing cipher: encryption  
   userSchema.methods.validatePassword = function(password) {
     return bcrypt.compareSync(password, this.password);
-  }
-  
+  } 
   userSchema.statics.hashPassword = function (password) {
     return bcrypt.hashSync(password, 10);
   };

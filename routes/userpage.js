@@ -31,24 +31,8 @@ router.get('/',jwtAuth, (req, res, next) => {
           return res.status(404).json(err);
         })
 });
-//delete user
-// router.delete('/',jwtAuth, (req, res, next) => {
-//     //console.log('req in userpage.js router', req);
-//     console.log(req.user, 'in delete endpoint')
-//     User.deleteOne({emailAddress: req.user.emailAddress})
-//         .then(users => {
-//             //console.log(res, 'in delete endpoint');
-//            return res.status(204).json({'No Content'});
-//         })
-//         .catch(error => {
-//             console.log(error, "error in delete endpoint")
-//            return res.status(500).json({ message: 'Internal server error, account cannot be deleted' })
-//         })
-// });
-
 //update account 
 //make sure i can make a postman call V, pass in auth, body, and updating database, and make sure it works with axios.put, 
-
 router.put('/', jwtAuth,(req, res) =>{
         //console.log(res.user);
         User.findOneAndUpdate(

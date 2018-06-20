@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
   .send('welcome to the Slam Crown Sign-up page');
 });
 /* 
-needs router.post for EmailAddress, hashed password, and date of concussion 
+needs router.post for emailAddress, hashed password, and date of concussion 
  create a new user*/
  router.post('/', function(req, res) {
    let user;
